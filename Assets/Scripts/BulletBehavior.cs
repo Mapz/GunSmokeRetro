@@ -17,6 +17,12 @@ public abstract class BulletBehavior : MonoBehaviour {
         bulletSpeed = _bulletSpeed;
         bulletSprite = _bulletSprite;
         shotAim = _shotAim;
+        // 重设Box Collider大小
+        SpriteRenderer sr = this.GetComponent<SpriteRenderer> ();
+        sr.sprite = bulletSprite;
+        Vector2 S = sr.sprite.bounds.size;
+        gameObject.GetComponent<BoxCollider2D> ().size = S;
+        gameObject.GetComponent<BoxCollider2D> ().offset = new Vector2 (0, 0);
         _Init ();
         initialized = true;
     }

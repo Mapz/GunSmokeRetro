@@ -9,7 +9,7 @@ public class HeroBulletBehavior : BulletBehavior {
 
     protected override void _Init () {
         moveSpeed = bulletSpeed * shotAim.normalized;
-        this.GetComponent<SpriteRenderer> ().sprite = bulletSprite;
+        
     }
 
     void Update () {

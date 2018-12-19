@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6994641068797337599}
   - component: {fileID: 6994641068797337597}
   - component: {fileID: 6994641068797337593}
-  - component: {fileID: 2009864575097155727}
+  - component: {fileID: 5330417687175954613}
   m_Layer: 0
   m_Name: HeroBullet
   m_TagString: Bullet
@@ -115,9 +115,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d5ec0b4cbe446fabd8b4fd28e4da98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  team: 0
+  damage: 0
   maxRange: 0.2
---- !u!68 &2009864575097155727
-EdgeCollider2D:
+--- !u!61 &5330417687175954613
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -130,7 +132,15 @@ EdgeCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_EdgeRadius: 0.2
-  m_Points:
-  - {x: -0.5, y: 0}
-  - {x: 0.5, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.0001, y: 0.0001}
+  m_EdgeRadius: 0
