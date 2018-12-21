@@ -118,7 +118,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HP: 5
-  moveSpeed: 20
+  moveSpeed: 40
   animator: {fileID: 5673298778806388595}
   weapons:
   - {fileID: 5673298778806388589}
@@ -172,7 +172,7 @@ MonoBehaviour:
   active: 0
   WeaponShots:
   - shotPos: {x: -15, y: 8, z: 0}
-    shotAim: {x: -1, y: 1, z: 0}
+    shotAim: {x: -1.5, y: 1, z: 0}
     bulletObject: {fileID: 6994641068797337570, guid: 4de9a0186709c448bb035a72cca59bff,
       type: 3}
     shotDamage: 1
@@ -202,7 +202,7 @@ MonoBehaviour:
   active: 0
   WeaponShots:
   - shotPos: {x: 15, y: 8, z: 0}
-    shotAim: {x: 1, y: 1, z: 0}
+    shotAim: {x: 1.5, y: 1, z: 0}
     bulletObject: {fileID: 6994641068797337570, guid: 4de9a0186709c448bb035a72cca59bff,
       type: 3}
     shotDamage: 1

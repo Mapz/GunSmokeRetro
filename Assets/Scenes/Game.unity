@@ -357,20 +357,5 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5673298778806388594, guid: dd7ce47cb5f8c4f2483148d419997c11,
-        type: 3}
-      propertyPath: moveSpeed
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 5673298778806388588, guid: dd7ce47cb5f8c4f2483148d419997c11,
-        type: 3}
-      propertyPath: WeaponShots.Array.data[0].shotAim.x
-      value: -1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5673298778806388591, guid: dd7ce47cb5f8c4f2483148d419997c11,
-        type: 3}
-      propertyPath: WeaponShots.Array.data[0].shotAim.x
-      value: 1.5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dd7ce47cb5f8c4f2483148d419997c11, type: 3}
