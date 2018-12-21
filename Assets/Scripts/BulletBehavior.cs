@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class BulletBehavior : MonoBehaviour {
+    [System.NonSerialized]
     public Team team;
+    [System.NonSerialized]
     public float damage;
     protected float bulletSpeed;
     protected Sprite bulletSprite;

@@ -6,7 +6,7 @@ using UnityEngine;
 
 public abstract class Unit : MonoBehaviour {
     public float HP = 5;
-    public float moveSpeed = 20;
+    public float moveSpeed = 35;
     public Animator animator;
     public List<WeaponsBehavior> weapons;
     public Team team;

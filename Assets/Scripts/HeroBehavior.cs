@@ -2,12 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class HeroBehavior : Unit {
+
+    private Rigidbody2D heroRigid;
+
+    private Vector3 positionToMove;
 
     // Start is called before the first frame update
     void Start () {
-
+        heroRigid = this.GetComponent<Rigidbody2D> ();
     }
 
     // Update is called once per frame
@@ -18,18 +21,28 @@ public class HeroBehavior : Unit {
     }
 
     protected override void UpdatePosition () {
+        positionToMove = this.transform.position;
         if (Input.GetKey ("w")) {
-            transform.position += Vector3.up * this.moveSpeed * Time.deltaTime;
+            positionToMove += Vector3.up * this.moveSpeed * Time.deltaTime;
+            // heroRigid.MovePosition (transform.position + Vector3.up * this.moveSpeed * Time.deltaTime);
+            // transform.position += Vector3.up * this.moveSpeed * Time.deltaTime;
         }
         if (Input.GetKey ("s")) {
-            transform.position += Vector3.down * this.moveSpeed * Time.deltaTime;
+            positionToMove += Vector3.down * this.moveSpeed * Time.deltaTime;
+            // heroRigid.MovePosition (transform.position + Vector3.down * this.moveSpeed * Time.deltaTime);
+            // transform.position += Vector3.down * this.moveSpeed * Time.deltaTime;
         }
         if (Input.GetKey ("a")) {
-            transform.position += Vector3.left * this.moveSpeed * Time.deltaTime;
+            positionToMove += Vector3.left * this.moveSpeed * Time.deltaTime;
+            // heroRigid.MovePosition (transform.position + Vector3.left * this.moveSpeed * Time.deltaTime);
+            // transform.position += Vector3.left * this.moveSpeed * Time.deltaTime;
         }
         if (Input.GetKey ("d")) {
-            transform.position += Vector3.right * this.moveSpeed * Time.deltaTime;
+            positionToMove += Vector3.right * this.moveSpeed * Time.deltaTime;
+
+            // transform.position += Vector3.right * this.moveSpeed * Time.deltaTime;
         }
+        heroRigid.MovePosition (positionToMove);
     }
 
     void UpdateFire () {

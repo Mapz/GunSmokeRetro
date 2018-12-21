@@ -12,8 +12,8 @@ public class RemovableTiles : MonoBehaviour {
     Tilemap tilemap;
     void Start () {
 
-        var rb = GetComponent<Rigidbody2D> ();
-        rb.velocity = initialVelocity.x * UnityEngine.Random.Range (-1f, 1f) * Vector3.right + initialVelocity.y * Vector3.down;
+        // var rb = GetComponent<Rigidbody2D> ();
+        // rb.velocity = initialVelocity.x * UnityEngine.Random.Range (-1f, 1f) * Vector3.right + initialVelocity.y * Vector3.down;
         if (tilemapGameObject != null) {
             tilemap = tilemapGameObject.GetComponent<Tilemap> ();
         }
@@ -31,7 +31,7 @@ public class RemovableTiles : MonoBehaviour {
     /// </summary>
     /// <param name="other">The other Collider2D involved in this collision.</param>
     void OnTriggerEnter2D (Collider2D other) {
-        Debug.Log ("OnTriggerEnter2D");
+        // Debug.Log ("OnTriggerEnter2D");
         if (other.gameObject.tag == "Bullet") {
             BulletBehavior bbh = other.gameObject.GetComponent<BulletBehavior> ();
             if (tilemap != null) {
@@ -40,11 +40,12 @@ public class RemovableTiles : MonoBehaviour {
 
                 TileBase tile = tilemap.GetTile (positionInGrid);
                 if (tile) {
-                    Debug.Log ("positionInGrid:" + positionInGrid);
+                    // Debug.Log ("positionInGrid:" + positionInGrid);
                     float HP = gridInfo.GetPositionProperty (positionInGrid, "HP", 10f);
                     HP -= bbh.damage;
                     gridInfo.SetPositionProperty (positionInGrid, "HP", HP);
-                    Debug.Log ("HP:" + HP);
+                    // Debug.Log ("HP:" + HP);
+                    Destroy (other.gameObject);
                     if (HP <= 0) {
                         tilemap.SetTile (positionInGrid, null);
                     }
