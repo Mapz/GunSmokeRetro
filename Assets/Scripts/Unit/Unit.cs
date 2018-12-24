@@ -10,7 +10,7 @@ public abstract class Unit : MonoBehaviour {
     public Animator animator;
     public List<WeaponsBehavior> weapons;
     public Team team;
-    protected bool died = false;
+    public bool dead = false;
     // Start is called before the first frame update
     protected void Awake () {
 

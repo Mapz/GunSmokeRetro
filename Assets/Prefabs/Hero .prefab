@@ -125,6 +125,7 @@ MonoBehaviour:
   - {fileID: 5673298778806388588}
   - {fileID: 5673298778806388591}
   team: 1
+  dead: 0
 --- !u!114 &5673298778806388589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,26 +135,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 5673298778806388584}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd2b73149f8734d01812a91f0e2fed43, type: 3}
+  m_Script: {fileID: 11500000, guid: 57d06edf1f01b416a8fd290c5aa10810, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   holdingWeapon: {fileID: 5673298778806388594}
-  coolDown: 0.05
+  coolDown: 0.1
   active: 0
   WeaponShots:
-  - shotPos: {x: -11, y: 8, z: 0}
+  - shotPos: {x: -11, y: 9, z: 0}
     shotAim: {x: 0, y: 1, z: 0}
     bulletObject: {fileID: 6994641068797337570, guid: 4de9a0186709c448bb035a72cca59bff,
       type: 3}
     shotDamage: 1
-    bulletSpeed: 800
+    bulletSpeed: 200
     bulletSprite: {fileID: 21300078, guid: 83ae80890916d49329a76b490aa05b78, type: 3}
-  - shotPos: {x: 11, y: 8, z: 0}
+  - shotPos: {x: 11, y: 9, z: 0}
     shotAim: {x: 0, y: 1, z: 0}
     bulletObject: {fileID: 6994641068797337570, guid: 4de9a0186709c448bb035a72cca59bff,
       type: 3}
     shotDamage: 1
-    bulletSpeed: 800
+    bulletSpeed: 200
     bulletSprite: {fileID: 21300078, guid: 83ae80890916d49329a76b490aa05b78, type: 3}
 --- !u!114 &5673298778806388588
 MonoBehaviour:
@@ -164,27 +165,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 5673298778806388584}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd2b73149f8734d01812a91f0e2fed43, type: 3}
+  m_Script: {fileID: 11500000, guid: 57d06edf1f01b416a8fd290c5aa10810, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   holdingWeapon: {fileID: 5673298778806388594}
-  coolDown: 0.05
+  coolDown: 0.1
   active: 0
   WeaponShots:
-  - shotPos: {x: -15, y: 8, z: 0}
+  - shotPos: {x: -13, y: 9, z: 0}
     shotAim: {x: -1.5, y: 1, z: 0}
     bulletObject: {fileID: 6994641068797337570, guid: 4de9a0186709c448bb035a72cca59bff,
       type: 3}
     shotDamage: 1
-    bulletSpeed: 800
-    bulletSprite: {fileID: 21300074, guid: 83ae80890916d49329a76b490aa05b78, type: 3}
-  - shotPos: {x: 7, y: 13, z: 0}
+    bulletSpeed: 200
+    bulletSprite: {fileID: 21300076, guid: 83ae80890916d49329a76b490aa05b78, type: 3}
+  - shotPos: {x: 6, y: 11, z: 0}
     shotAim: {x: -1, y: 1, z: 0}
     bulletObject: {fileID: 6994641068797337570, guid: 4de9a0186709c448bb035a72cca59bff,
       type: 3}
     shotDamage: 1
-    bulletSpeed: 800
-    bulletSprite: {fileID: 21300074, guid: 83ae80890916d49329a76b490aa05b78, type: 3}
+    bulletSpeed: 200
+    bulletSprite: {fileID: 21300076, guid: 83ae80890916d49329a76b490aa05b78, type: 3}
 --- !u!114 &5673298778806388591
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,26 +195,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 5673298778806388584}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd2b73149f8734d01812a91f0e2fed43, type: 3}
+  m_Script: {fileID: 11500000, guid: 57d06edf1f01b416a8fd290c5aa10810, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   holdingWeapon: {fileID: 5673298778806388594}
-  coolDown: 0.05
+  coolDown: 0.1
   active: 0
   WeaponShots:
-  - shotPos: {x: 15, y: 8, z: 0}
-    shotAim: {x: 1.5, y: 1, z: 0}
-    bulletObject: {fileID: 6994641068797337570, guid: 4de9a0186709c448bb035a72cca59bff,
-      type: 3}
-    shotDamage: 1
-    bulletSpeed: 800
-    bulletSprite: {fileID: 21300080, guid: 83ae80890916d49329a76b490aa05b78, type: 3}
-  - shotPos: {x: -7, y: 13, z: 0}
+  - shotPos: {x: -6, y: 11, z: 0}
     shotAim: {x: 1, y: 1, z: 0}
     bulletObject: {fileID: 6994641068797337570, guid: 4de9a0186709c448bb035a72cca59bff,
       type: 3}
     shotDamage: 1
-    bulletSpeed: 800
+    bulletSpeed: 200
+    bulletSprite: {fileID: 21300080, guid: 83ae80890916d49329a76b490aa05b78, type: 3}
+  - shotPos: {x: 13, y: 9, z: 0}
+    shotAim: {x: 1.5, y: 1, z: 0}
+    bulletObject: {fileID: 6994641068797337570, guid: 4de9a0186709c448bb035a72cca59bff,
+      type: 3}
+    shotDamage: 1
+    bulletSpeed: 200
     bulletSprite: {fileID: 21300080, guid: 83ae80890916d49329a76b490aa05b78, type: 3}
 --- !u!61 &5673298778806388590
 BoxCollider2D:

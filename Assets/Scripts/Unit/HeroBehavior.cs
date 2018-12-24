@@ -15,7 +15,7 @@ public class HeroBehavior : Unit {
 
     // Update is called once per frame
     new void Update () {
-        if (died) return;
+        if (dead) return;
         base.Update ();
         UpdateFire ();
     }

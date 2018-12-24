@@ -9,6 +9,8 @@ public class RemovableTiles : MonoBehaviour {
     public GameObject tilemapGameObject;
 
     private GridInformation gridInfo;
+
+    private RaycastHit2D[] hitBuff = new RaycastHit2D[16];
     Tilemap tilemap;
     void Start () {
 
@@ -31,26 +33,30 @@ public class RemovableTiles : MonoBehaviour {
     /// </summary>
     /// <param name="other">The other Collider2D involved in this collision.</param>
     void OnTriggerEnter2D (Collider2D other) {
-        // Debug.Log ("OnTriggerEnter2D");
+        Debug.Log ("OnTriggerEnter2D");
         if (other.gameObject.tag == "Bullet") {
-            BulletBehavior bbh = other.gameObject.GetComponent<BulletBehavior> ();
             if (tilemap != null) {
-                Vector3 point = other.gameObject.transform.position;
-                Vector3Int positionInGrid = tilemap.WorldToCell (point);
-
-                TileBase tile = tilemap.GetTile (positionInGrid);
-                if (tile) {
-                    // Debug.Log ("positionInGrid:" + positionInGrid);
-                    float HP = gridInfo.GetPositionProperty (positionInGrid, "HP", 10f);
-                    HP -= bbh.damage;
-                    gridInfo.SetPositionProperty (positionInGrid, "HP", HP);
-                    // Debug.Log ("HP:" + HP);
-                    Destroy (other.gameObject);
-                    if (HP <= 0) {
-                        tilemap.SetTile (positionInGrid, null);
+                BulletBehavior bbh = other.gameObject.GetComponent<BulletBehavior> ();
+                Rigidbody2D bbhRigd = bbh.GetComponent<Rigidbody2D> ();
+                // 需要cast一下射线，找到接触点，否则找不到 tile cell
+                int hitCount = bbh.GetComponent<Rigidbody2D> ().Cast (bbhRigd.velocity, hitBuff);
+                if (hitCount > 0) {
+                    for (int i = 0; i < hitCount; i++) {
+                        RaycastHit2D hit = hitBuff[i];
+                        Vector3Int positionInGrid = tilemap.WorldToCell (hit.point);
+                        TileBase tile = tilemap.GetTile (positionInGrid);
+                        if (tile) {
+                            float HP = gridInfo.GetPositionProperty (positionInGrid, "HP", 10f);
+                            HP -= bbh.damage;
+                            gridInfo.SetPositionProperty (positionInGrid, "HP", HP);
+                            Debug.Log ("HP:" + HP);
+                            Destroy (other.gameObject);
+                            if (HP <= 0) {
+                                tilemap.SetTile (positionInGrid, null);
+                            }
+                        };
                     }
-                };
-
+                }
             }
         }
     }

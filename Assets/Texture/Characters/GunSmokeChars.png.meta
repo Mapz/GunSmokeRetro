@@ -42,7 +42,7 @@ TextureImporter:
     21300074: GunSmokeChars_37
     21300076: HeroBulletLeft
     21300078: HeroBulletUp
-    21300080: GunSmokeChars_40
+    21300080: HeroBulletRight
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -947,7 +947,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GunSmokeChars_40
+      name: HeroBulletRight
       rect:
         serializedVersion: 2
         x: 161
