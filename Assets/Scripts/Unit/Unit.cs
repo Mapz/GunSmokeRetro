@@ -11,39 +11,53 @@ public abstract class Unit : MonoBehaviour {
     public List<WeaponsBehavior> weapons;
     public Team team;
     public bool dead = false;
-    // Start is called before the first frame update
-    protected void Awake () {
 
+    protected Game game;
+
+    void Awake () {
+        game = GameObject.Find ("Game").GetComponent<Game> ();
     }
 
-    // Update is called once per frame
     protected void Update () {
         UpdatePosition ();
     }
 
-    protected abstract void UpdatePosition ();
+    protected virtual void UpdatePosition () { }
+    protected virtual void Die () { }
 
     void OnTriggerEnter2D (Collider2D other) {
         if (other.gameObject.tag == "Bullet") {
-            BulletBehavior bbh = other.gameObject.GetComponent<BulletBehavior> ();
-            if (bbh.team != this.team) {
-                this.HP -= bbh.damage;
-                if (this.HP <= 0) {
-                    animator.SetInteger ("UnitState", (int) UnitState.Die);
-                    Die ();
-                } else {
+            if (!this.dead) {
+                BulletBehavior bbh = other.gameObject.GetComponent<BulletBehavior> ();
+                if (bbh.team != this.team) {
+                    this.HP -= bbh.damage;
+                    if (this.HP <= 0) {
+                        _Die ();
+                    }
                     Destroy (other.gameObject);
                 }
-            }
-        } else if (other.gameObject.tag.StartsWith ("Unit")) {
+            } else if (other.gameObject.tag.StartsWith ("Unit")) {
 
+            }
         }
+
     }
 
-    void Die () {
+    void _Die () {
+        this.dead = true;
+        //播放死掉的动画
+        animator.SetInteger ("UnitState", (int) UnitState.Die);
+        // animator.Play ("Die");
+        //停火
+        foreach (WeaponsBehavior weapon in weapons) {
+            weapon.active = false;
+        }
+        // GetComponent<Rigidbody2D> ().velocity = Vector3.zero;
+        Destroy (GetComponent<Rigidbody2D> ());
+        Destroy (GetComponent<Collider2D> ());
+        Die ();
         new EnumTimer (() => {
             Destroy (gameObject);
         }, 3).StartTimeout (this);
     }
-
 }

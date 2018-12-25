@@ -115,7 +115,7 @@ Tilemap:
       m_TileIndex: 1
       m_TileSpriteIndex: 2
       m_TileMatrixIndex: 0
-      m_TileColorIndex: 2
+      m_TileColorIndex: 1
       m_ObjectToInstantiate: {fileID: 0}
       m_TileFlags: 3
       m_ColliderType: 1
@@ -124,7 +124,7 @@ Tilemap:
       m_TileIndex: 1
       m_TileSpriteIndex: 2
       m_TileMatrixIndex: 0
-      m_TileColorIndex: 2
+      m_TileColorIndex: 1
       m_ObjectToInstantiate: {fileID: 0}
       m_TileFlags: 3
       m_ColliderType: 1
@@ -133,7 +133,7 @@ Tilemap:
       m_TileIndex: 1
       m_TileSpriteIndex: 2
       m_TileMatrixIndex: 0
-      m_TileColorIndex: 2
+      m_TileColorIndex: 1
       m_ObjectToInstantiate: {fileID: 0}
       m_TileFlags: 3
       m_ColliderType: 1
@@ -142,7 +142,7 @@ Tilemap:
       m_TileIndex: 1
       m_TileSpriteIndex: 2
       m_TileMatrixIndex: 0
-      m_TileColorIndex: 2
+      m_TileColorIndex: 1
       m_ObjectToInstantiate: {fileID: 0}
       m_TileFlags: 3
       m_ColliderType: 1
@@ -151,7 +151,7 @@ Tilemap:
       m_TileIndex: 1
       m_TileSpriteIndex: 2
       m_TileMatrixIndex: 0
-      m_TileColorIndex: 2
+      m_TileColorIndex: 1
       m_ObjectToInstantiate: {fileID: 0}
       m_TileFlags: 3
       m_ColliderType: 1
@@ -190,10 +190,10 @@ Tilemap:
   m_TileColorArray:
   - m_RefCount: 2
     m_Data: {r: 1, g: 1, b: 1, a: 1}
-  - m_RefCount: 0
-    m_Data: {r: 0.8940892, g: 0.45685995, b: 0.5012583, a: 1}
   - m_RefCount: 5
-    m_Data: {r: 0.7400994, g: 0.4217073, b: 0.42433926, a: 1}
+    m_Data: {r: 0.94909334, g: 0.50390315, b: 0.59223056, a: 1}
+  - m_RefCount: 0
+    m_Data: {r: 0.829885, g: 0.4328065, b: 0.50255907, a: 1}
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Origin: {x: -3, y: 1, z: 0}
@@ -1793,6 +1793,8 @@ GameObject:
   - component: {fileID: 6788988410973714159}
   - component: {fileID: 6788988410973714158}
   - component: {fileID: 6788988410973714152}
+  - component: {fileID: 1784702896}
+  - component: {fileID: 4467588149045906831}
   m_Layer: 0
   m_Name: GroundLayer
   m_TagString: GroundLayer
@@ -6341,3 +6343,50 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &1784702896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6788988410973714156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7bb9acb2cffc5f45abddc238a0ad9b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PositionIntKeys: []
+  m_PositionIntValues: 
+  m_PositionStringKeys: []
+  m_PositionStringValues: []
+  m_PositionFloatKeys: []
+  m_PositionFloatValues: []
+  m_PositionDoubleKeys: []
+  m_PositionDoubleValues: []
+  m_PositionObjectKeys: []
+  m_PositionObjectValues: []
+  m_PositionColorKeys: []
+  m_PositionColorValues: []
+--- !u!114 &4467588149045906831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6788988410973714156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ba20ab5ff8ee40078b50fc53f29d5ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawns:
+  - position: {x: -72.7298, y: 158.85843, z: 0}
+    EnemeyToProduce: {fileID: 6151574279207998833, guid: 6251f848533f84352aa2abf0f3153974,
+      type: 3}
+    maxCount: 1
+    interval: 0.1
+  - position: {x: 81.06948, y: 175.39516, z: 0}
+    EnemeyToProduce: {fileID: 6151574279207998833, guid: 6251f848533f84352aa2abf0f3153974,
+      type: 3}
+    maxCount: 1
+    interval: 0.1

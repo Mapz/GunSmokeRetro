@@ -9,7 +9,7 @@ public class HeroBulletBehavior : BulletBehavior {
     private float timePassed = 0;
     private float timeRange;
 
-    protected override void _Init () {
+    protected override void _Init (Unit holder) {
         moveSpeed = bulletSpeed * shotAim.normalized;
         this.GetComponent<Rigidbody2D> ().velocity = new Vector2 (moveSpeed.x, moveSpeed.y);
         timeRange = maxRange / moveSpeed.magnitude;
@@ -18,7 +18,7 @@ public class HeroBulletBehavior : BulletBehavior {
     void Update () {
         if (!initialized) return;
         UpdateRange ();
-        // UpdateMove ();
+        UpdateOutOfScreen ();
     }
 
     void UpdateRange () {

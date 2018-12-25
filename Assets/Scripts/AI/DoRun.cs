@@ -3,20 +3,36 @@ using System.Collections.Generic;
 using BT;
 using UnityEngine;
 
-public class DoAttack : BTAction {
+public class DoRun : BTAction {
 
     private GameObject _target;
-
     private Vector3 _destination;
+
+    private float _tolerance = 0.01f;
     private Transform _trans;
-    private List<WeaponsBehavior> _weapons;
-    public DoAttack (GameObject target, BTPrecondition precondition = null) : base (precondition) {
+
+    public DoRun (GameObject target, BTPrecondition precondition = null) : base (precondition) {
         _target = target;
     }
+
     public override void Activate (Database database) {
         base.Activate (database);
         _trans = database.transform;
-        _weapons = database.GetComponent<Unit> ().weapons;
+    }
+
+    protected override BTResult Execute () {
+
+        if (CheckDead ()) {
+            return BTResult.Ended;
+        }
+        UpdateDestination ();
+        UpdateFaceDirection ();
+
+        if (CheckArrived ()) {
+            return BTResult.Ended;
+        }
+        MoveToDestination ();
+        return BTResult.Running;
     }
 
     private void UpdateDestination () {
@@ -55,29 +71,20 @@ public class DoAttack : BTAction {
             }
         }
     }
-    protected override BTResult Execute () {
 
-        if (CheckDead ()) {
-            return BTResult.Ended;
-        }
-        UpdateDestination ();
-        UpdateFaceDirection ();
-        Attack ();
-        return BTResult.Running;
-    }
-    protected override void Exit () {
-        if (_weapons.Count > 0) {
-            _weapons[0].active = false;
-        }
-    }
     private bool CheckDead () {
         if (_target && database.GetComponent<Unit> ())
             return _target.GetComponent<Unit> ().dead || database.GetComponent<Unit> ().dead;
         return true;
     }
-    private void Attack () {
-        if (_weapons.Count > 0) {
-            _weapons[0].active = true;
-        }
+
+    private bool CheckArrived () {
+        Vector3 offset = _destination - _trans.position;
+        return offset.sqrMagnitude < _tolerance * _tolerance;
+    }
+
+    private void MoveToDestination () {
+        Vector3 direction = (_destination - _trans.position).normalized;
+        database.GetComponent<Rigidbody2D> ().velocity = direction * database.GetComponent<Unit> ().moveSpeed;
     }
 }

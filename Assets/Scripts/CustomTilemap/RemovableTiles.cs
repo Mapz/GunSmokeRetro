@@ -37,6 +37,7 @@ public class RemovableTiles : MonoBehaviour {
         if (other.gameObject.tag == "Bullet") {
             if (tilemap != null) {
                 BulletBehavior bbh = other.gameObject.GetComponent<BulletBehavior> ();
+                if (bbh.team != Team.Team1) return;
                 Rigidbody2D bbhRigd = bbh.GetComponent<Rigidbody2D> ();
                 // 需要cast一下射线，找到接触点，否则找不到 tile cell
                 int hitCount = bbh.GetComponent<Rigidbody2D> ().Cast (bbhRigd.velocity, hitBuff);

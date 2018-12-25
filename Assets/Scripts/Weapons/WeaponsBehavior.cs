@@ -11,6 +11,10 @@ public struct WeaponShot {
     public float bulletSpeed;
     public Sprite bulletSprite;
 
+    public void setAim (Vector3 aim) {
+        this.shotAim = aim;
+    }
+
 }
 
 public abstract class WeaponsBehavior : MonoBehaviour {

@@ -14,7 +14,7 @@ public class PropertyEditWindow : EditorWindow {
         public GridInformationType valueType;
         public string valueRaw;
         public Vector3Int position;
-
+        public UnityEngine.Object valueObject;
         public bool toRemove;
 
         public PropertyData (Vector3Int p, string n, GridInformationType t, string vr) {
@@ -22,6 +22,7 @@ public class PropertyEditWindow : EditorWindow {
             valueType = t;
             position = p;
             valueRaw = vr;
+            valueObject = null;
             toRemove = false;
         }
         public PropertyData (Vector3Int p, string n, GridInformationType t, string vr, bool rv) {
@@ -29,6 +30,24 @@ public class PropertyEditWindow : EditorWindow {
             valueType = t;
             position = p;
             valueRaw = vr;
+            valueObject = null;
+            toRemove = rv;
+        }
+
+        public PropertyData (Vector3Int p, string n, GridInformationType t, UnityEngine.Object vo) {
+            name = n;
+            valueType = t;
+            position = p;
+            valueObject = vo;
+            valueRaw = null;
+            toRemove = false;
+        }
+        public PropertyData (Vector3Int p, string n, GridInformationType t, UnityEngine.Object vo, bool rv) {
+            name = n;
+            valueType = t;
+            position = p;
+            valueObject = vo;
+            valueRaw = null;
             toRemove = rv;
         }
 
@@ -137,17 +156,35 @@ public class PropertyEditWindow : EditorWindow {
                 }
                 var name = EditorGUILayout.TextField ("名称：", m_PositionProperties[i].name);
                 var valueType = (GridInformationType) EditorGUILayout.EnumPopup ("类型：", m_PositionProperties[i].valueType);
-                var value = EditorGUILayout.TextField ("值：", m_PositionProperties[i].valueRaw);
+                string rawValue = null;
+                UnityEngine.Object objValue = null;
+                if (valueType != GridInformationType.UnityObject && valueType != GridInformationType.Color) {
+                    rawValue = EditorGUILayout.TextField ("值：", m_PositionProperties[i].valueRaw);
+                } else {
+                    objValue = EditorGUILayout.ObjectField ("值：", m_PositionProperties[i].valueObject, typeof (UnityEngine.GameObject), null);
+                }
+
                 if (GUILayout.Button ("去除属性")) {
                     toRemove = true;
                 }
-                m_PositionProperties[i] = new PropertyData (
-                    m_position,
-                    name,
-                    valueType,
-                    value,
-                    toRemove
-                );
+                if (null != rawValue) {
+                    m_PositionProperties[i] = new PropertyData (
+                        m_position,
+                        name,
+                        valueType,
+                        rawValue,
+                        toRemove
+                    );
+                } else {
+                    m_PositionProperties[i] = new PropertyData (
+                        m_position,
+                        name,
+                        valueType,
+                        objValue,
+                        toRemove
+                    );
+                }
+
             }
 
             EditorGUILayout.Space ();

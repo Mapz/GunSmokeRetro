@@ -8,6 +8,8 @@ public class HeroBehavior : Unit {
 
     private Vector3 positionToMove;
 
+    private Vector3 screenPositionBuff;
+
     // Start is called before the first frame update
     void Start () {
         heroRigid = this.GetComponent<Rigidbody2D> ();
@@ -24,24 +26,23 @@ public class HeroBehavior : Unit {
         positionToMove = this.transform.position;
         if (Input.GetKey ("w")) {
             positionToMove += Vector3.up * this.moveSpeed * Time.deltaTime;
-            // heroRigid.MovePosition (transform.position + Vector3.up * this.moveSpeed * Time.deltaTime);
-            // transform.position += Vector3.up * this.moveSpeed * Time.deltaTime;
         }
         if (Input.GetKey ("s")) {
             positionToMove += Vector3.down * this.moveSpeed * Time.deltaTime;
-            // heroRigid.MovePosition (transform.position + Vector3.down * this.moveSpeed * Time.deltaTime);
-            // transform.position += Vector3.down * this.moveSpeed * Time.deltaTime;
         }
         if (Input.GetKey ("a")) {
             positionToMove += Vector3.left * this.moveSpeed * Time.deltaTime;
-            // heroRigid.MovePosition (transform.position + Vector3.left * this.moveSpeed * Time.deltaTime);
-            // transform.position += Vector3.left * this.moveSpeed * Time.deltaTime;
         }
         if (Input.GetKey ("d")) {
             positionToMove += Vector3.right * this.moveSpeed * Time.deltaTime;
-
-            // transform.position += Vector3.right * this.moveSpeed * Time.deltaTime;
         }
+
+        // 主角不能出界
+        if (!game.pointInScreen (positionToMove, ref screenPositionBuff)) {
+            positionToMove = screenPositionBuff;
+        }
+    
+
         heroRigid.MovePosition (positionToMove);
     }
 

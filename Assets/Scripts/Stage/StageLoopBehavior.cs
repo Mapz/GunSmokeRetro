@@ -12,7 +12,9 @@ public class StageLoopBehavior : MonoBehaviour {
     public Camera camera;
     private float ScreenHeight = 240;
 
-    // H 30 * 16 = 480;
+    private void Awake() {
+        camera = GameObject.Find("Main Camera").GetComponent<Camera>();
+    }
 
     void Start () {
         upperMap = Instantiate (initLoop);

@@ -8,10 +8,18 @@ public class Enemy1AI : BTTree {
         BTConfiguration.ENABLE_BTACTION_LOG = true;
         BTConfiguration.ENABLE_DATABASE_LOG = true;
 
-        _root = new BTParallelFlexible ();
-        _root.interval = 1.5f;
+        // root 是选择器
+        _root = new BTPrioritySelector ();
+        _root.interval = 0.1f;
 
-        CheckInSight checkPlayerSight = new CheckInSight (200, "Hero");
-        // PlayAnimation();
+        GameObject hero = GameObject.Find ("Game").GetComponent<Game> ().m_hero.gameObject;
+
+        // 如果在视野内则攻击
+        CheckInSight checkPlayerSight = new CheckInSight (80, hero);
+        _root.AddChild (new DoAttack (hero, checkPlayerSight));
+
+        // 不然跑向主角
+        _root.AddChild (new DoRun (hero));
+
     }
 }
