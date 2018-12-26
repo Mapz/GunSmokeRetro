@@ -51,7 +51,7 @@ public class RemovableTiles : MonoBehaviour {
                             HP -= bbh.damage;
                             gridInfo.SetPositionProperty (positionInGrid, "HP", HP);
                             // Debug.Log ("HP:" + HP);
-                            Destroy (other.gameObject);
+                            BulletMgr.DestroyBullet (bbh);
                             if (HP <= 0) {
                                 tilemap.SetTile (positionInGrid, null);
                             }

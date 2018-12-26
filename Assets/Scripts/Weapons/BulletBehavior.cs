@@ -43,8 +43,7 @@ public abstract class BulletBehavior : MonoBehaviour {
     protected void UpdateOutOfScreen () {
 
         if (!game.pointInOutterScreen (transform.localPosition)) {
-            Destroy (gameObject);
-
+            BulletMgr.DestroyBullet(this);
         }
 
     }

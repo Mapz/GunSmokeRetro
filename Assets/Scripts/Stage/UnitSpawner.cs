@@ -48,7 +48,9 @@ public class SpawnData {
     }
 
     public void Spawn (Transform parent) {
-        GameObject enemy = GameObject.Instantiate (EnemeyToProduce);
+        GameObject enemy = UnitMgr.CreateUnit (() => {
+            return GameObject.Instantiate (EnemeyToProduce).GetComponent<Unit> ();
+        }).gameObject;
         enemy.transform.parent = parent;
         enemy.transform.position = position;
     }

@@ -57,7 +57,7 @@ public abstract class Unit : MonoBehaviour {
         Destroy (GetComponent<Collider2D> ());
         Die ();
         new EnumTimer (() => {
-            Destroy (gameObject);
+            UnitMgr.DestroyUnit (this);
         }, 3).StartTimeout (this);
     }
 }

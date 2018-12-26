@@ -6,9 +6,8 @@ public class HeroWeapon : WeaponsBehavior {
 
     protected override void Fire () {
         foreach (WeaponShot shot in WeaponShots) {
-            var bulletObject = Instantiate (shot.bulletObject) as GameObject;
-            bulletObject.transform.position = this.transform.position + shot.shotPos;
-            BulletBehavior bbh = bulletObject.GetComponent<BulletBehavior> ();
+            BulletBehavior bbh = BulletMgr.CreateBullet (() => Instantiate (shot.bulletObject).GetComponent<BulletBehavior> ());
+            bbh.transform.position = this.transform.position + shot.shotPos;
             bbh.Init (this.holdingWeapon.team, shot.shotDamage, shot.bulletSpeed, shot.shotAim, shot.bulletSprite);
         }
     }

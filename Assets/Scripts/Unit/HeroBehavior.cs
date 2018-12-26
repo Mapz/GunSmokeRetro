@@ -41,7 +41,6 @@ public class HeroBehavior : Unit {
         if (!game.pointInScreen (positionToMove, ref screenPositionBuff)) {
             positionToMove = screenPositionBuff;
         }
-    
 
         heroRigid.MovePosition (positionToMove);
     }
@@ -68,6 +67,10 @@ public class HeroBehavior : Unit {
             weapons[1].active = false;
             weapons[2].active = false;
         }
+    }
+
+    protected override void Die () {
+        game.SetGameState (GameState.HeroFail);
     }
 
 }

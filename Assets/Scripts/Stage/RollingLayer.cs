@@ -8,6 +8,12 @@ public class RollingLayer : MonoBehaviour {
 
     private float lastY;
 
+    private bool _pause = false;
+
+    public void Pause (bool isPause) {
+        _pause = isPause;
+    }
+
     private void Awake () {
         Application.targetFrameRate = 100;
     }
@@ -17,6 +23,7 @@ public class RollingLayer : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        transform.position -= moveSpeed * Time.deltaTime;
+        if (!_pause)
+            transform.position -= moveSpeed * Time.deltaTime;
     }
 }
