@@ -2,15 +2,16 @@ using System.Collections;
 using BT;
 using UnityEngine;
 
-public class CheckInSight : BTPrecondition {
+public class CheckInOrOutSight : BTPrecondition {
     private float _sightLength;
     private GameObject _target;
-
     private Transform _trans;
+    private bool _isIn;
 
-    public CheckInSight (float sightLength, GameObject target) {
+    public CheckInOrOutSight (float sightLength, GameObject target, bool isIn) {
         _sightLength = sightLength;
         _target = target;
+        _isIn = isIn;
     }
 
     public override void Activate (Database database) {
@@ -21,6 +22,10 @@ public class CheckInSight : BTPrecondition {
     public override bool Check () {
         if (_target == null) return false;
         Vector3 offset = _target.transform.position - _trans.position;
-        return offset.sqrMagnitude <= _sightLength * _sightLength;
+        if (_isIn)
+            return offset.sqrMagnitude <= _sightLength * _sightLength;
+        else {
+            return offset.sqrMagnitude > _sightLength * _sightLength;
+        }
     }
 }

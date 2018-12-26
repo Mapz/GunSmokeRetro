@@ -50,7 +50,7 @@ public class RemovableTiles : MonoBehaviour {
                             float HP = gridInfo.GetPositionProperty (positionInGrid, "HP", 10f);
                             HP -= bbh.damage;
                             gridInfo.SetPositionProperty (positionInGrid, "HP", HP);
-                            Debug.Log ("HP:" + HP);
+                            // Debug.Log ("HP:" + HP);
                             Destroy (other.gameObject);
                             if (HP <= 0) {
                                 tilemap.SetTile (positionInGrid, null);

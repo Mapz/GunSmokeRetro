@@ -3,19 +3,18 @@ using System.Collections.Generic;
 using BT;
 using UnityEngine;
 
-public class DoRun : BTAction {
+public class DoKeepDistanceAround : BTAction {
 
     private GameObject _target;
-    private Vector3 _destination;
 
+    private float _tolerance = 0.01f;
     private Transform _trans;
 
     private float _distance;
 
-    public DoRun (GameObject target, float distance, BTPrecondition precondition = null) : base (precondition) {
+    public DoKeepDistanceAround (GameObject target, float distance, BTPrecondition precondition = null) : base (precondition) {
         _target = target;
         _distance = distance;
-
     }
 
     public override void Activate (Database database) {
@@ -28,22 +27,16 @@ public class DoRun : BTAction {
         if (CheckDead ()) {
             return BTResult.Ended;
         }
-        UpdateDestination ();
-        UpdateFaceDirection ();
-
-        if (CheckArrived ()) {
+        if (CheckDistance ()) {
             return BTResult.Ended;
         }
+        UpdateFaceDirection ();
         MoveToDestination ();
         return BTResult.Running;
     }
 
-    private void UpdateDestination () {
-        _destination = _target.transform.position;
-    }
-
     private void UpdateFaceDirection () {
-        Vector3 offset = _destination - _trans.position;
+        Vector3 offset = _target.transform.position - _trans.position;
         if (offset.x > 0) {
             if (offset.y > 0) {
                 if (offset.x > offset.y) {
@@ -75,19 +68,20 @@ public class DoRun : BTAction {
         }
     }
 
+    private bool CheckDistance () {
+        Debug.Log ("Distance:" + (_target.transform.position - _trans.position).sqrMagnitude);
+        return (_target.transform.position - _trans.position).sqrMagnitude >= _distance * _distance;
+    }
+
     private bool CheckDead () {
         if (_target && database.GetComponent<Unit> ())
             return _target.GetComponent<Unit> ().dead || database.GetComponent<Unit> ().dead;
         return true;
     }
 
-    private bool CheckArrived () {
-        Vector3 offset = _destination - _trans.position;
-        return offset.sqrMagnitude < _distance * _distance;
-    }
-
     private void MoveToDestination () {
-        Vector3 direction = (_destination - _trans.position).normalized;
+        Vector3 direction = -(_target.transform.position - _trans.position).normalized;
+        Debug.Log ("Direction:" + direction);
         database.GetComponent<Rigidbody2D> ().velocity = direction * database.GetComponent<Unit> ().moveSpeed;
     }
 }
