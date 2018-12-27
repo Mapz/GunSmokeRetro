@@ -314,8 +314,12 @@ namespace UnityEngine.Tilemaps {
             return m_PositionProperties.Keys.ToList ().FindAll (x => x.name == propertyName).Select (x => x.position).ToArray ();
         }
 
+        public Vector3Int[] GetAllPositions () {
+            return m_PositionProperties.Keys.ToList ().Select (x => x.position).ToArray ();
+        }
+
         public Dictionary<GridInformationKey, GridInformationValue> getPropertiesInAGrid (Vector3Int position) {
-            return m_PositionProperties.Where (x => x.Key.position == position).ToDictionary (k => k.Key,v => v.Value);
+            return m_PositionProperties.Where (x => x.Key.position == position).ToDictionary (k => k.Key, v => v.Value);
         }
     }
 }

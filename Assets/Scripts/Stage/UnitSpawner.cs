@@ -6,7 +6,7 @@ using UnityEngine;
 [System.Serializable]
 public class SpawnData {
 
-    public Vector3 position;
+    public Vector3Int position;
     public GameObject EnemeyToProduce;
     public int maxCount;
     public float interval;
@@ -14,7 +14,7 @@ public class SpawnData {
     private float curTime = 0;
     private bool active = false;
 
-    public SpawnData (Vector3 _position, GameObject _EnemeyToProduce, int _maxCount, float _interval) {
+    public SpawnData (Vector3Int _position, GameObject _EnemeyToProduce, int _maxCount, float _interval) {
         position = _position;
         EnemeyToProduce = _EnemeyToProduce;
         maxCount = _maxCount;
@@ -24,11 +24,11 @@ public class SpawnData {
         active = false;
     }
 
-    public SpawnData CloneSetPos (Vector3 _position) {
+    public SpawnData CloneSetPos (Vector3Int _position) {
         return new SpawnData (_position, EnemeyToProduce, maxCount, interval);
     }
 
-    public void SetPosition (Vector3 _position) {
+    public void SetPosition (Vector3Int _position) {
         position = _position;
     }
 
@@ -36,41 +36,44 @@ public class SpawnData {
         active = _active;
     }
 
-    public void UpdateSpawn (float delta, Transform parent) {
+    public void UpdateSpawn (float delta, Grid grid, Transform parent) {
         if (!active) return;
         if (curCount >= maxCount) return;
         curTime -= delta;
         if (curTime <= 0) {
-            Spawn (parent);
+            Spawn (grid, parent);
             curCount++;
             curTime = interval;
         }
     }
 
-    public void Spawn (Transform parent) {
+    public void Spawn (Grid grid, Transform parent) {
         GameObject enemy = ObjectMgr<Unit>.Instance.Create (() => {
             return GameObject.Instantiate (EnemeyToProduce).GetComponent<Unit> ();
         }).gameObject;
         enemy.transform.parent = parent;
-        enemy.transform.position = position;
+        enemy.transform.position = grid.CellToWorld (position);
     }
 }
 
 public class UnitSpawner : MonoBehaviour {
 
+    [HideInInspector]
     public List<SpawnData> spawns;
     // private Game game;
-    public Transform parent;
+    public Grid m_grid;
+
+    private Transform m_unitParent;
 
     private void Start () {
-        // game = GameObject.Find ("Game").GetComponent<Game> ();
-        // parent = game.m_level.transform;
+        m_unitParent = GameObject.Find ("Game").GetComponent<Game> ().m_level.transform;
+        m_grid = GameObject.Find ("Game").GetComponent<Game> ().m_grid;
     }
     void Update () {
-        foreach (SpawnData data in spawns) {
-            if (Game.pointInSpawnArea (data.position + parent.position)) {
+        foreach (var data in spawns) {
+            if (Game.pointInSpawnArea (m_grid.CellToWorld (data.position))) {
                 data.SetActive (true);
-                data.UpdateSpawn (Time.deltaTime, parent);
+                data.UpdateSpawn (Time.deltaTime, m_grid, m_unitParent);
             } else {
                 data.SetActive (false);
             }

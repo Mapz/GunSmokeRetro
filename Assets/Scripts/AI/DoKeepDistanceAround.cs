@@ -69,7 +69,7 @@ public class DoKeepDistanceAround : BTAction {
     }
 
     private bool CheckDistance () {
-        Debug.Log ("Distance:" + (_target.transform.position - _trans.position).sqrMagnitude);
+        // Debug.Log ("Distance:" + (_target.transform.position - _trans.position).sqrMagnitude);
         return (_target.transform.position - _trans.position).sqrMagnitude >= _distance * _distance;
     }
 
@@ -81,7 +81,7 @@ public class DoKeepDistanceAround : BTAction {
 
     private void MoveToDestination () {
         Vector3 direction = -(_target.transform.position - _trans.position).normalized;
-        Debug.Log ("Direction:" + direction);
+        // Debug.Log ("Direction:" + direction);
         database.GetComponent<Rigidbody2D> ().velocity = direction * database.GetComponent<Unit> ().m_moveSpeed;
     }
 }

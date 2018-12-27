@@ -11,8 +11,9 @@ public enum GameState {
     HeroFail,
 }
 
-// PropertyBrsh:增加屏幕显示
-// TODO:生怪器坐标问题,生怪器重写 --TileMap 形式
+// TODO:PropertyBrush增加屏幕显示 完成
+// TODO:生怪器用生怪刷搞定
+// TODO:随机障碍物系统
 // TODO:UI系统
 
 public class Game : MonoBehaviour, PauseAble {
@@ -33,6 +34,7 @@ public class Game : MonoBehaviour, PauseAble {
 
     private bool m_onChangeState = false;
     private GameState m_lastState;
+    public Grid m_grid;
     public void SetGameState (GameState state) {
         m_onChangeState = true;
         m_lastState = m_state;
@@ -111,6 +113,7 @@ public class Game : MonoBehaviour, PauseAble {
 
     public void loadLevel () {
         m_level = Instantiate (LevelPrefab);
+        m_grid = m_level.GetComponent<Grid> ();
         m_rolling = m_level.GetComponent<RollingLayer> ();
         m_hero = (HeroBehavior) ObjectMgr<Unit>.Instance.Create (() => {
             return Instantiate (HeroPrefab).GetComponent<HeroBehavior> ();

@@ -46,7 +46,7 @@ namespace UnityEditor {
             } else {
                 if (null != m_pickedProperties) {
                     foreach (var item in m_pickedProperties) {
-                        gi.SetPositionProperty (position, item.Key.name,item.Value.type,item.Value.data);
+                        gi.SetPositionProperty (position, item.Key.name, item.Value.type, item.Value.data);
                         Debug.LogWarning ("复制到了:" + item.Key.name + " @ " + position);
                     }
                     m_window = PropertyEditWindow.Initialize (position, ref gi);
@@ -109,8 +109,20 @@ namespace UnityEditor {
                 return GameObject.FindObjectsOfType<Tilemap> ().Select (x => x.gameObject).ToArray ();
             }
         }
-        public override void OnSelectionInspectorGUI () {
-            // Debug.Log ("Selected");
+        public override void OnPaintSceneGUI (GridLayout grid, GameObject brushTarget, BoundsInt position, GridBrushBase.Tool tool, bool executing) {
+            base.OnPaintSceneGUI (grid, brushTarget, position, tool, executing);
+            Tilemap layerTilemap = brushTarget.GetComponent<Tilemap> ();
+            GridInformation gi = brushTarget.GetComponent<GridInformation> ();
+            if (null == gi) return;
+            int i = 0;
+            Handles.color = Color.black;
+            foreach (var p in gi.GetAllPositions ()) {
+                Vector3 wp = grid.CellToWorld (p);
+                Handles.RectangleHandleCap (i, wp + grid.cellSize / 2, Quaternion.identity, 8f, EventType.Repaint);
+                Handles.Label (wp, "属性格子");
+                i++;
+            }
+
         }
     }
 }
