@@ -16,7 +16,7 @@ public class HeroBulletBehavior : BulletBehavior {
     }
 
     void Update () {
-        if (!initialized) return;
+        if (!initialized || m_isPaused) return;
         UpdateRange ();
         UpdateOutOfScreen ();
     }

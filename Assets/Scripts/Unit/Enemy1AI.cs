@@ -19,7 +19,7 @@ public class Enemy1AI : BTTree {
         _root.AddChild (keepDistance);
         // 在射程就射击
         // _root.AddChild (new DoAttack (hero, new CheckInOrOutSight (90, hero, true)));
-        _root.AddChild (new DoAttack (hero, new CheckInOrOutSight (-5, hero, true)));
+        _root.AddChild (new DoAttack (hero, new CheckInOrOutSight (90, hero, true)));
         // 太远了跑向主角
         DoRun findPlayer = new DoRun (hero, 80, new CheckInOrOutSight (80, hero, false));
         // findPlayer.interval = 0.1f;

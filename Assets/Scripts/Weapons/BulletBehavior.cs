@@ -17,6 +17,8 @@ public abstract class BulletBehavior : MonoBehaviour, PauseAble {
 
     private Vector3 _pauseVelocityBuff;
 
+    protected bool m_isPaused = false;
+
     private void Awake () {
         game = GameObject.Find ("Game").GetComponent<Game> ();
     }
@@ -49,6 +51,7 @@ public abstract class BulletBehavior : MonoBehaviour, PauseAble {
         } else {
             GetComponent<Rigidbody2D> ().velocity = _pauseVelocityBuff;
         }
+        m_isPaused = _pause;
 
     }
 

@@ -59,16 +59,16 @@ public class SpawnData {
 public class UnitSpawner : MonoBehaviour {
 
     public List<SpawnData> spawns;
-    private Game game;
-    private Transform parent;
+    // private Game game;
+    public Transform parent;
 
     private void Start () {
-        game = GameObject.Find ("Game").GetComponent<Game> ();
-        parent = game.m_level.transform;
+        // game = GameObject.Find ("Game").GetComponent<Game> ();
+        // parent = game.m_level.transform;
     }
     void Update () {
         foreach (SpawnData data in spawns) {
-            if (Game.pointInSpawnArea (data.position)) {
+            if (Game.pointInSpawnArea (data.position + parent.position)) {
                 data.SetActive (true);
                 data.UpdateSpawn (Time.deltaTime, parent);
             } else {

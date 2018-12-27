@@ -6,7 +6,6 @@ using UnityEngine;
 public class ObjectMgr<T> where T : MonoBehaviour, PauseAble {
     public delegate T GetObj ();
     public static ObjectMgr<T> _Instance;
-
     private List<T> m_pool = new List<T> ();
     public static ObjectMgr<T> Instance {
         get {
@@ -16,16 +15,15 @@ public class ObjectMgr<T> where T : MonoBehaviour, PauseAble {
         }
     }
 
-    public T Create (GetObj action) {
-        T newObj = action ();
+    public T Create (GetObj creatAction) {
+        T newObj = creatAction ();
         _Instance.m_pool.Add (newObj);
         return newObj;
-
     }
 
-    public void Destroy (T bullet) {
-        _Instance.m_pool.Remove (bullet);
-        GameObject.Destroy (bullet.gameObject);
+    public void Destroy (T obj) {
+        _Instance.m_pool.Remove (obj);
+        GameObject.Destroy (obj.gameObject);
     }
 
     public void PauseAll (bool _pause) {

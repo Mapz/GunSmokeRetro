@@ -11,8 +11,8 @@ public enum GameState {
     HeroFail,
 }
 
-// TODO:屏幕分辨率适配
-// TODO:生怪器坐标问题
+// PropertyBrsh:增加屏幕显示
+// TODO:生怪器坐标问题,生怪器重写 --TileMap 形式
 // TODO:UI系统
 
 public class Game : MonoBehaviour, PauseAble {
