@@ -125,11 +125,11 @@ namespace UnityEditor {
             base.OnPaintSceneGUI (grid, brushTarget, position, tool, true);
             Tilemap layerTilemap = brushTarget.GetComponent<Tilemap> ();
             UnitSpawner spawner = brushTarget.GetComponent<UnitSpawner> ();
-
+            if (spawner == null) return;
             int i = 0;
             Handles.color = Color.red;
             foreach (var p in spawner.spawns) {
-                Vector3 wp = grid.CellToWorld (p.position);
+                Vector3 wp = grid.CellToLocal (p.position) + brushTarget.transform.position;
                 Handles.RectangleHandleCap (i, wp + grid.cellSize / 2, Quaternion.identity, 8f, EventType.Repaint);
                 Handles.Label (wp, "生怪器");
                 i++;

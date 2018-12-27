@@ -191,9 +191,9 @@ Tilemap:
   - m_RefCount: 2
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   - m_RefCount: 5
-    m_Data: {r: 0.7968785, g: 0.5400414, b: 0.5621224, a: 1}
+    m_Data: {r: 0.7937115, g: 0.41263348, b: 0.51011115, a: 1}
   - m_RefCount: 0
-    m_Data: {r: 0.87387323, g: 0.5753289, b: 0.672651, a: 1}
+    m_Data: {r: 0.9163461, g: 0.40560585, b: 0.41553375, a: 1}
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Origin: {x: -3, y: 1, z: 0}
@@ -6348,4 +6348,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ba20ab5ff8ee40078b50fc53f29d5ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawns:
+  - position: {x: -3, y: 11, z: 0}
+    EnemeyToProduce: {fileID: 6151574279207998833, guid: 6251f848533f84352aa2abf0f3153974,
+      type: 3}
+    maxCount: 1
+    interval: 0.1
+  - position: {x: 4, y: 11, z: 0}
+    EnemeyToProduce: {fileID: 6151574279207998833, guid: 6251f848533f84352aa2abf0f3153974,
+      type: 3}
+    maxCount: 1
+    interval: 0.1
+  - position: {x: 7, y: 12, z: 0}
+    EnemeyToProduce: {fileID: 6151574279207998833, guid: 6251f848533f84352aa2abf0f3153974,
+      type: 3}
+    maxCount: 1
+    interval: 0.1
+  - position: {x: -8, y: 10, z: 0}
+    EnemeyToProduce: {fileID: 6151574279207998833, guid: 6251f848533f84352aa2abf0f3153974,
+      type: 3}
+    maxCount: 1
+    interval: 0.1
   m_grid: {fileID: 0}

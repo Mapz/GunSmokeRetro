@@ -52,7 +52,7 @@ public class SpawnData {
             return GameObject.Instantiate (EnemeyToProduce).GetComponent<Unit> ();
         }).gameObject;
         enemy.transform.parent = parent;
-        enemy.transform.position = grid.CellToWorld (position);
+        enemy.transform.position = grid.CellToLocal (position) + grid.cellSize;
     }
 }
 
@@ -71,7 +71,9 @@ public class UnitSpawner : MonoBehaviour {
     }
     void Update () {
         foreach (var data in spawns) {
-            if (Game.pointInSpawnArea (m_grid.CellToWorld (data.position))) {
+            // Debug.Log (m_grid.CellToLocal (data.position));
+            Debug.Log (transform.position + m_grid.CellToLocal (data.position));
+            if (Game.pointInSpawnArea (transform.position + m_grid.CellToLocal (data.position))) {
                 data.SetActive (true);
                 data.UpdateSpawn (Time.deltaTime, m_grid, m_unitParent);
             } else {

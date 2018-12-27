@@ -14,12 +14,13 @@ namespace UnityEditor {
             Handles.color = Color.red;
             int i = 0;
             foreach (var p in t.spawns) {
-                Vector3 wp = grid.CellToWorld (p.position);
+                Vector3 wp;
+                wp = grid.CellToLocal (p.position) + t.transform.position;
                 Handles.RectangleHandleCap (i, wp + grid.cellSize / 2, Quaternion.identity, 8f, EventType.Repaint);
                 Handles.Label (wp, "生怪器");
                 i++;
             }
-           
+
         }
 
     }
