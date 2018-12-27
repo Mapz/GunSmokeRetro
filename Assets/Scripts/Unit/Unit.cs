@@ -4,21 +4,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Unit : MonoBehaviour {
-    public float HP = 5;
-    public float moveSpeed = 35;
-    public Animator animator;
-    public List<WeaponsBehavior> weapons;
-    public Team team;
-    public bool dead = false;
-
+public abstract class Unit : MonoBehaviour, PauseAble {
+    public float m_HP = 5;
+    public float m_moveSpeed = 35;
+    public Animator m_animator;
+    public List<WeaponsBehavior> m_weapons;
+    public Team m_team;
     protected Game game;
+    private Vector3 _pauseVelocityBuff;
+    protected bool m_isPause = false;
+    public bool m_isDead = false;
 
     void Awake () {
         game = GameObject.Find ("Game").GetComponent<Game> ();
     }
 
     protected void Update () {
+        if (m_isPause) return;
         UpdatePosition ();
     }
 
@@ -27,11 +29,11 @@ public abstract class Unit : MonoBehaviour {
 
     void OnTriggerEnter2D (Collider2D other) {
         if (other.gameObject.tag == "Bullet") {
-            if (!this.dead) {
+            if (!this.m_isDead) {
                 BulletBehavior bbh = other.gameObject.GetComponent<BulletBehavior> ();
-                if (bbh.team != this.team) {
-                    this.HP -= bbh.damage;
-                    if (this.HP <= 0) {
+                if (bbh.team != this.m_team) {
+                    this.m_HP -= bbh.damage;
+                    if (this.m_HP <= 0) {
                         _Die ();
                     }
                     Destroy (other.gameObject);
@@ -43,13 +45,37 @@ public abstract class Unit : MonoBehaviour {
 
     }
 
+    public void Pause (bool _pause) {
+        if (_pause) {
+            foreach (WeaponsBehavior weapon in m_weapons) {
+                weapon.active = false;
+            }
+            if (null != GetComponent<Rigidbody2D> ()) {
+                _pauseVelocityBuff = GetComponent<Rigidbody2D> ().velocity;
+                GetComponent<Rigidbody2D> ().velocity = Vector3.zero;
+            }
+            if (null != GetComponent<BTTree> ()) {
+                GetComponent<BTTree> ().isRunning = false;
+            }
+        } else {
+            if (null != GetComponent<Rigidbody2D> ()) {
+                GetComponent<Rigidbody2D> ().velocity = _pauseVelocityBuff;
+            }
+            if (null != GetComponent<BTTree> ()) {
+                GetComponent<BTTree> ().isRunning = true;
+            }
+        }
+        m_isPause = _pause;
+
+    }
+
     void _Die () {
-        this.dead = true;
+        this.m_isDead = true;
         //播放死掉的动画
-        animator.SetInteger ("UnitState", (int) UnitState.Die);
+        m_animator.SetInteger ("UnitState", (int) UnitState.Die);
         // animator.Play ("Die");
         //停火
-        foreach (WeaponsBehavior weapon in weapons) {
+        foreach (WeaponsBehavior weapon in m_weapons) {
             weapon.active = false;
         }
         // GetComponent<Rigidbody2D> ().velocity = Vector3.zero;
@@ -57,7 +83,7 @@ public abstract class Unit : MonoBehaviour {
         Destroy (GetComponent<Collider2D> ());
         Die ();
         new EnumTimer (() => {
-            UnitMgr.DestroyUnit (this);
+            ObjectMgr<Unit>.Instance.Destroy (this);
         }, 3).StartTimeout (this);
     }
 }

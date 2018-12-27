@@ -24,7 +24,7 @@ public class HeroBulletBehavior : BulletBehavior {
     void UpdateRange () {
         timePassed += Time.deltaTime;
         if (timePassed >= timeRange) {
-            BulletMgr.DestroyBullet (this);
+            ObjectMgr<BulletBehavior>.Instance.Destroy (this);
         }
     }
 

@@ -77,7 +77,7 @@ public class DoRun : BTAction {
 
     private bool CheckDead () {
         if (_target && database.GetComponent<Unit> ())
-            return _target.GetComponent<Unit> ().dead || database.GetComponent<Unit> ().dead;
+            return _target.GetComponent<Unit> ().m_isDead || database.GetComponent<Unit> ().m_isDead;
         return true;
     }
 
@@ -88,6 +88,6 @@ public class DoRun : BTAction {
 
     private void MoveToDestination () {
         Vector3 direction = (_destination - _trans.position).normalized;
-        database.GetComponent<Rigidbody2D> ().velocity = direction * database.GetComponent<Unit> ().moveSpeed;
+        database.GetComponent<Rigidbody2D> ().velocity = direction * database.GetComponent<Unit> ().m_moveSpeed;
     }
 }

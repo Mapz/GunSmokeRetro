@@ -186,13 +186,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 878d4ec4ed8254400b7124b9f3e895ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HP: 5
-  moveSpeed: 35
-  animator: {fileID: 6151574279207998835}
-  weapons:
+  m_HP: 5
+  m_moveSpeed: 35
+  m_animator: {fileID: 6151574279207998835}
+  m_weapons:
   - {fileID: 6151574279207998840}
-  team: 2
-  dead: 0
+  m_team: 2
+  m_isDead: 0
 --- !u!114 &6151574279207998841
 MonoBehaviour:
   m_ObjectHideFlags: 0

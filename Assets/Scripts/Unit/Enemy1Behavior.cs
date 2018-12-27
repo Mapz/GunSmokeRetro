@@ -13,7 +13,7 @@ public class EnemyBehavior : Unit {
 
     // Update is called once per frame
     new void Update () {
-        if (!dead) {
+        if (!m_isDead) {
             base.Update ();
         }
     }

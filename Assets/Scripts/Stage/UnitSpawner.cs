@@ -48,7 +48,7 @@ public class SpawnData {
     }
 
     public void Spawn (Transform parent) {
-        GameObject enemy = UnitMgr.CreateUnit (() => {
+        GameObject enemy = ObjectMgr<Unit>.Instance.Create (() => {
             return GameObject.Instantiate (EnemeyToProduce).GetComponent<Unit> ();
         }).gameObject;
         enemy.transform.parent = parent;
@@ -68,7 +68,7 @@ public class UnitSpawner : MonoBehaviour {
     }
     void Update () {
         foreach (SpawnData data in spawns) {
-            if (game.pointInSpawnArea (data.position)) {
+            if (Game.pointInSpawnArea (data.position)) {
                 data.SetActive (true);
                 data.UpdateSpawn (Time.deltaTime, parent);
             } else {

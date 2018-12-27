@@ -16,7 +16,7 @@ public class EnemyBullet1Behavior : BulletBehavior {
             moveSpeed = bulletSpeed * shotAim.normalized;
             this.GetComponent<Rigidbody2D> ().velocity = new Vector2 (moveSpeed.x, moveSpeed.y);
         } else {
-            BulletMgr.DestroyBullet (this);
+            ObjectMgr<BulletBehavior>.Instance.Destroy (this);
         }
     }
 

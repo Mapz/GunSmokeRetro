@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-public class RollingLayer : MonoBehaviour {
+public class RollingLayer : MonoBehaviour, PauseAble {
     public Vector3 moveSpeed;
 
     private float lastY;

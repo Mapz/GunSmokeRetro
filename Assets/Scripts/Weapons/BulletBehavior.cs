@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BulletBehavior : MonoBehaviour {
+public abstract class BulletBehavior : MonoBehaviour, PauseAble {
     [System.NonSerialized]
     public Team team;
     [System.NonSerialized]
@@ -14,6 +14,8 @@ public abstract class BulletBehavior : MonoBehaviour {
     public Vector3 shotAim;
     protected bool initialized = false;
     protected Game game;
+
+    private Vector3 _pauseVelocityBuff;
 
     private void Awake () {
         game = GameObject.Find ("Game").GetComponent<Game> ();
@@ -38,12 +40,24 @@ public abstract class BulletBehavior : MonoBehaviour {
         initialized = true;
     }
 
+    public void Pause (bool _pause) {
+        if (_pause) {
+            if (null != GetComponent<Rigidbody2D> ()) {
+                _pauseVelocityBuff = GetComponent<Rigidbody2D> ().velocity;
+                GetComponent<Rigidbody2D> ().velocity = Vector3.zero;
+            }
+        } else {
+            GetComponent<Rigidbody2D> ().velocity = _pauseVelocityBuff;
+        }
+
+    }
+
     protected abstract void _Init (Unit holder = null);
 
     protected void UpdateOutOfScreen () {
 
-        if (!game.pointInOutterScreen (transform.localPosition)) {
-            BulletMgr.DestroyBullet(this);
+        if (!Game.pointInOutterScreen (transform.localPosition)) {
+            ObjectMgr<BulletBehavior>.Instance.Destroy (this);
         }
 
     }

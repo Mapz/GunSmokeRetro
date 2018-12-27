@@ -6,16 +6,13 @@ using UnityEngine;
 
 public class Enemy1Behavior : Unit {
 
-    // Start is called before the first frame update
     void Awake () {
-        animator.SetInteger ("UnitState", (int) UnitState.WalkDown);
+        m_animator.SetInteger ("UnitState", (int) UnitState.WalkDown);
     }
 
-    // Update is called once per frame
     new void Update () {
-        if (!dead) {
-            base.Update ();
-        }
+        if (m_isDead || m_isPause) return;
+        base.Update ();
     }
 
     protected override void Die () {

@@ -15,12 +15,12 @@ public enum GameState {
 // TODO:生怪器坐标问题
 // TODO:UI系统
 
-public class Game : MonoBehaviour {
+public class Game : MonoBehaviour, PauseAble {
     [System.NonSerialized]
     //屏幕界限
-    private Bounds screenBounds;
+    private static Bounds screenBounds;
     //屏幕外部界限
-    private Bounds outerBounds;
+    private static Bounds outerBounds;
     private Camera camera;
     public GameObject LevelPrefab;
     public GameObject HeroPrefab;
@@ -39,12 +39,23 @@ public class Game : MonoBehaviour {
         m_state = state;
     }
 
+    void Awake () {
+        SetGameState (GameState.Init);
+    }
+
     private void OnChangeState (GameState newState, GameState oldState) {
         m_onChangeState = false;
         switch (newState) {
+            case GameState.Init:
+                camera = GameObject.Find ("Main Camera").GetComponent<Camera> ();
+                PixelPerfectCamera ppc = GameObject.Find ("Main Camera").GetComponent<PixelPerfectCamera> ();
+                screenBounds = new Bounds (new Vector3 (0, 0, 0), new Vector3 (ppc.refResolutionX, ppc.refResolutionY, 0));
+                outerBounds = new Bounds (new Vector3 (0, 0, 0), new Vector3 (ppc.refResolutionX * 1.5f, ppc.refResolutionY * 1.5f, 0));
+                SetGameState (GameState.Loading);
+                break;
             case GameState.HeroFail:
-                UnitMgr.PauseAll ();
-                BulletMgr.PauseAll ();
+                ObjectMgr<BulletBehavior>.Instance.PauseAll (true);
+                ObjectMgr<Unit>.Instance.PauseAll (true);
                 m_rolling.Pause (true);
                 FadeCamera fade = camera.gameObject.AddComponent<FadeCamera> ();
                 fade.duration = 3;
@@ -58,8 +69,8 @@ public class Game : MonoBehaviour {
                 };
                 break;
             case GameState.Loading:
-                UnitMgr.Clear ();
-                BulletMgr.Clear ();
+                ObjectMgr<BulletBehavior>.Instance.Clear ();
+                ObjectMgr<Unit>.Instance.Clear ();
                 loadLevel ();
                 SetGameState (GameState.InGame);
                 break;
@@ -69,34 +80,39 @@ public class Game : MonoBehaviour {
         }
     }
 
+    public void Pause (bool _pause) {
+        ObjectMgr<BulletBehavior>.Instance.PauseAll (_pause);
+        ObjectMgr<Unit>.Instance.PauseAll (_pause);
+        m_rolling.Pause (_pause);
+    }
+
     private void Update () {
         if (m_onChangeState)
             OnChangeState (m_state, m_lastState);
         switch (m_state) {
             case GameState.Init:
-                UnitMgr.Init ();
-                BulletMgr.Init ();
-                camera = GameObject.Find ("Main Camera").GetComponent<Camera> ();
-                PixelPerfectCamera ppc = GameObject.Find ("Main Camera").GetComponent<PixelPerfectCamera> ();
-                screenBounds = new Bounds (new Vector3 (ppc.refResolutionX / 2, ppc.refResolutionY / 2, -camera.transform.position.z), new Vector3 (ppc.refResolutionX, ppc.refResolutionY, 0));
-                outerBounds = new Bounds (new Vector3 (ppc.refResolutionX / 2, ppc.refResolutionY / 2, -camera.transform.position.z), new Vector3 (ppc.refResolutionX * 1.5f, ppc.refResolutionY * 1.5f, 0));
-                SetGameState (GameState.Loading);
+                break;
+            case GameState.Loading:
+                break;
+            case GameState.InGame:
+                if (Input.GetKeyDown ("p")) {
+                    Pause (true);
+                    SetGameState (GameState.Pause);
+                }
+                break;
+            case GameState.Pause:
+                if (Input.GetKeyDown ("p")) {
+                    Pause (false);
+                    SetGameState (GameState.InGame);
+                }
                 break;
         }
-    }
-
-    void Awake () {
-
-    }
-
-    void Start () {
-
     }
 
     public void loadLevel () {
         m_level = Instantiate (LevelPrefab);
         m_rolling = m_level.GetComponent<RollingLayer> ();
-        m_hero = (HeroBehavior) UnitMgr.CreateUnit (() => {
+        m_hero = (HeroBehavior) ObjectMgr<Unit>.Instance.Create (() => {
             return Instantiate (HeroPrefab).GetComponent<HeroBehavior> ();
         });
     }
@@ -104,28 +120,32 @@ public class Game : MonoBehaviour {
     public void unloadLevel () {
         Destroy (m_level);
         if (null != m_hero) {
-            UnitMgr.DestroyUnit (m_hero);
+            ObjectMgr<Unit>.Instance.Destroy (m_hero);
         }
     }
 
-    public bool pointInScreen (Vector3 point, ref Vector3 ClosetPoint) {
-        Vector3 ScreenPoint = camera.WorldToScreenPoint (point);
-        if (screenBounds.Contains (ScreenPoint)) {
+    public static bool pointInScreen (Vector3 point) {
+        if (screenBounds.Contains (point)) {
             return true;
         } else {
-            ClosetPoint = screenBounds.ClosestPoint (ScreenPoint);
-            ClosetPoint = camera.ScreenToWorldPoint (ClosetPoint);
             return false;
         }
     }
 
-    public bool pointInOutterScreen (Vector3 point) {
-        Vector3 ScreenPoint = camera.WorldToScreenPoint (point);
-        return outerBounds.Contains (ScreenPoint);
+    public static bool pointInScreen (Vector3 point, ref Vector3 ClosetPoint) {
+        if (screenBounds.Contains (point)) {
+            return true;
+        } else {
+            ClosetPoint = screenBounds.ClosestPoint (point);
+            return false;
+        }
     }
 
-    public bool pointInSpawnArea (Vector3 point) {
-        Vector3 ScreenPoint = camera.WorldToScreenPoint (point);
-        return (!screenBounds.Contains (point) && outerBounds.Contains (ScreenPoint));
+    public static bool pointInOutterScreen (Vector3 point) {
+        return outerBounds.Contains (point);
+    }
+
+    public static bool pointInSpawnArea (Vector3 point) {
+        return (!screenBounds.Contains (point) && outerBounds.Contains (point));
     }
 }

@@ -10,10 +10,9 @@ public class StageLoopBehavior : MonoBehaviour {
     private GameObject downerMap;
     private Tilemap upperTilemap;
     public Camera camera;
-    private float ScreenHeight = 240;
 
-    private void Awake() {
-        camera = GameObject.Find("Main Camera").GetComponent<Camera>();
+    private void Awake () {
+        camera = GameObject.Find ("Main Camera").GetComponent<Camera> ();
     }
 
     void Start () {
@@ -24,13 +23,13 @@ public class StageLoopBehavior : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        float curY = camera.WorldToScreenPoint (upperTilemap.transform.position + upperTilemap.localBounds.max).y;
+        Vector3 YtopPosition = upperTilemap.transform.position + upperTilemap.localBounds.max; // + upperTilemap.localBounds.size.y / 2;
         //屏幕到顶了，创建新循环
-        if (curY <= ScreenHeight) {
+        if (Game.pointInOutterScreen (YtopPosition)) {
             int r = Random.Range (0, loopMaps.Count);
             downerMap = Instantiate (loopMaps[r]);
             downerMap.transform.parent = transform;
-            var position1 = upperTilemap.transform.position + (upperTilemap.localBounds.max + downerMap.GetComponent<LoopData> ().m_ground.localBounds.center);
+            var position1 = upperTilemap.transform.position + upperTilemap.localBounds.max + downerMap.GetComponent<LoopData> ().m_ground.localBounds.center;
             position1 = new Vector3 (0, position1.y, 0);
             downerMap.transform.position = position1;
             Swap<GameObject> (ref upperMap, ref downerMap);
@@ -38,8 +37,8 @@ public class StageLoopBehavior : MonoBehaviour {
         }
         //循环到底了，删除之前的循环
         if (null != downerMap) {
-            float downerY = camera.WorldToScreenPoint (downerMap.transform.position + downerMap.GetComponent<LoopData> ().m_ground.localBounds.max).y;
-            if (downerY <= 0) {
+            Vector3 downerPosition = downerMap.transform.position + downerMap.GetComponent<LoopData> ().m_ground.localBounds.max;
+            if (!Game.pointInOutterScreen (downerPosition)) {
                 Destroy (downerMap);
             }
         }

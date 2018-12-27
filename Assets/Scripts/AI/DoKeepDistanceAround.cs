@@ -75,13 +75,13 @@ public class DoKeepDistanceAround : BTAction {
 
     private bool CheckDead () {
         if (_target && database.GetComponent<Unit> ())
-            return _target.GetComponent<Unit> ().dead || database.GetComponent<Unit> ().dead;
+            return _target.GetComponent<Unit> ().m_isDead || database.GetComponent<Unit> ().m_isDead;
         return true;
     }
 
     private void MoveToDestination () {
         Vector3 direction = -(_target.transform.position - _trans.position).normalized;
         Debug.Log ("Direction:" + direction);
-        database.GetComponent<Rigidbody2D> ().velocity = direction * database.GetComponent<Unit> ().moveSpeed;
+        database.GetComponent<Rigidbody2D> ().velocity = direction * database.GetComponent<Unit> ().m_moveSpeed;
     }
 }

@@ -16,7 +16,7 @@ public class DoAttack : BTAction {
     public override void Activate (Database database) {
         base.Activate (database);
         _trans = database.transform;
-        _weapons = database.GetComponent<Unit> ().weapons;
+        _weapons = database.GetComponent<Unit> ().m_weapons;
     }
 
     private void UpdateDestination () {
@@ -72,7 +72,7 @@ public class DoAttack : BTAction {
     }
     private bool CheckDead () {
         if (_target && database.GetComponent<Unit> ())
-            return _target.GetComponent<Unit> ().dead || database.GetComponent<Unit> ().dead;
+            return _target.GetComponent<Unit> ().m_isDead || database.GetComponent<Unit> ().m_isDead;
         return true;
     }
     private void Attack () {

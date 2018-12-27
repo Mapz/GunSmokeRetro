@@ -17,7 +17,7 @@ public class HeroBehavior : Unit {
 
     // Update is called once per frame
     new void Update () {
-        if (dead) return;
+        if (m_isDead || m_isPause) return;
         base.Update ();
         UpdateFire ();
     }
@@ -25,20 +25,20 @@ public class HeroBehavior : Unit {
     protected override void UpdatePosition () {
         positionToMove = this.transform.position;
         if (Input.GetKey ("w")) {
-            positionToMove += Vector3.up * this.moveSpeed * Time.deltaTime;
+            positionToMove += Vector3.up * this.m_moveSpeed * Time.deltaTime;
         }
         if (Input.GetKey ("s")) {
-            positionToMove += Vector3.down * this.moveSpeed * Time.deltaTime;
+            positionToMove += Vector3.down * this.m_moveSpeed * Time.deltaTime;
         }
         if (Input.GetKey ("a")) {
-            positionToMove += Vector3.left * this.moveSpeed * Time.deltaTime;
+            positionToMove += Vector3.left * this.m_moveSpeed * Time.deltaTime;
         }
         if (Input.GetKey ("d")) {
-            positionToMove += Vector3.right * this.moveSpeed * Time.deltaTime;
+            positionToMove += Vector3.right * this.m_moveSpeed * Time.deltaTime;
         }
 
         // 主角不能出界
-        if (!game.pointInScreen (positionToMove, ref screenPositionBuff)) {
+        if (!Game.pointInScreen (positionToMove, ref screenPositionBuff)) {
             positionToMove = screenPositionBuff;
         }
 
@@ -47,25 +47,25 @@ public class HeroBehavior : Unit {
 
     void UpdateFire () {
         if (Input.GetKey ("k")) {
-            animator.SetInteger ("UnitState", (int) UnitState.ShootUp);
-            weapons[0].active = true;
-            weapons[1].active = false;
-            weapons[2].active = false;
+            m_animator.SetInteger ("UnitState", (int) UnitState.ShootUp);
+            m_weapons[0].active = true;
+            m_weapons[1].active = false;
+            m_weapons[2].active = false;
         } else if (Input.GetKey ("j")) {
-            animator.SetInteger ("UnitState", (int) UnitState.ShootLeft);
-            weapons[0].active = false;
-            weapons[1].active = true;
-            weapons[2].active = false;
+            m_animator.SetInteger ("UnitState", (int) UnitState.ShootLeft);
+            m_weapons[0].active = false;
+            m_weapons[1].active = true;
+            m_weapons[2].active = false;
         } else if (Input.GetKey ("l")) {
-            animator.SetInteger ("UnitState", (int) UnitState.ShootRight);
-            weapons[0].active = false;
-            weapons[1].active = false;
-            weapons[2].active = true;
+            m_animator.SetInteger ("UnitState", (int) UnitState.ShootRight);
+            m_weapons[0].active = false;
+            m_weapons[1].active = false;
+            m_weapons[2].active = true;
         } else {
-            animator.SetInteger ("UnitState", (int) UnitState.WalkUp);
-            weapons[0].active = false;
-            weapons[1].active = false;
-            weapons[2].active = false;
+            m_animator.SetInteger ("UnitState", (int) UnitState.WalkUp);
+            m_weapons[0].active = false;
+            m_weapons[1].active = false;
+            m_weapons[2].active = false;
         }
     }
 
