@@ -23,6 +23,7 @@ public abstract class WeaponsBehavior : MonoBehaviour {
     private float _coolDown;
     public bool active;
     public List<WeaponShot> WeaponShots;
+
     // Start is called before the first frame update
 
     // Update is called once per frame

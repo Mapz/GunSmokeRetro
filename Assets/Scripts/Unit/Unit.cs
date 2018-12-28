@@ -14,9 +14,11 @@ public abstract class Unit : MonoBehaviour, PauseAble {
     private Vector3 _pauseVelocityBuff;
     protected bool m_isPause = false;
     public bool m_isDead = false;
+    public Vector3 m_positionFffsetOnCreate;
 
     void Awake () {
         game = GameObject.Find ("Game").GetComponent<Game> ();
+        
     }
 
     protected void Update () {
@@ -69,10 +71,14 @@ public abstract class Unit : MonoBehaviour, PauseAble {
 
     }
 
+    protected virtual void SetAnimDied () {
+        m_animator.SetInteger ("UnitState", (int) UnitState.Die);
+    }
+
     void _Die () {
         this.m_isDead = true;
         //播放死掉的动画
-        m_animator.SetInteger ("UnitState", (int) UnitState.Die);
+        SetAnimDied ();
         // animator.Play ("Die");
         //停火
         foreach (WeaponsBehavior weapon in m_weapons) {

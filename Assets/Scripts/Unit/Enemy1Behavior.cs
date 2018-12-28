@@ -4,21 +4,18 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
-public class EnemyBehavior : Unit {
+public class Enemy1Behavior : Unit {
 
-    // Start is called before the first frame update
-    void Start () {
-
+    void Awake () {
+        m_animator.SetInteger ("UnitState", (int) UnitState.WalkDown);
     }
 
-    // Update is called once per frame
     new void Update () {
-        if (!m_isDead) {
-            base.Update ();
-        }
+        if (m_isDead || m_isPause) return;
+        base.Update ();
     }
 
     protected override void Die () {
-        transform.DOMoveY (3f, 0.2f).SetRelative();
+        transform.DOMoveY (3f, 0.2f).SetRelative ();
     }
 }

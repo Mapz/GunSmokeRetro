@@ -59,7 +59,7 @@ public abstract class BulletBehavior : MonoBehaviour, PauseAble {
 
     protected void UpdateOutOfScreen () {
 
-        if (!Game.pointInOutterScreen (transform.localPosition)) {
+        if (!Game.pointInOutterScreen (transform.position)) {
             ObjectMgr<BulletBehavior>.Instance.Destroy (this);
         }
 

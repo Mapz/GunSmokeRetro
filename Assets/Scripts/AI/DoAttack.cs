@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using BT;
 using UnityEngine;
 
-public class DoAttack : BTAction {
+public abstract class DoAttack : BTAction {
 
-    private GameObject _target;
-
-    private Vector3 _destination;
-    private Transform _trans;
-    private List<WeaponsBehavior> _weapons;
+    protected GameObject _target;
+    protected Vector3 _destination;
+    protected Transform _trans;
+    protected List<WeaponsBehavior> _weapons;
     public DoAttack (GameObject target, BTPrecondition precondition = null) : base (precondition) {
         _target = target;
     }
@@ -23,41 +22,18 @@ public class DoAttack : BTAction {
         _destination = _target.transform.position;
     }
 
-    private void UpdateFaceDirection () {
-        Vector3 offset = _destination - _trans.position;
-        if (offset.x > 0) {
-            if (offset.y > 0) {
-                if (offset.x > offset.y) {
-                    database.GetComponent<Animator> ().SetInteger ("UnitState", (int) UnitState.WalkRight);
-                } else if (offset.x < offset.y) {
-                    database.GetComponent<Animator> ().SetInteger ("UnitState", (int) UnitState.WalkUp);
-                }
-            } else if (offset.y < 0) {
-                if (offset.x > Mathf.Abs (offset.y)) {
-                    database.GetComponent<Animator> ().SetInteger ("UnitState", (int) UnitState.WalkRight);
-                } else if (offset.x < Mathf.Abs (offset.y)) {
-                    database.GetComponent<Animator> ().SetInteger ("UnitState", (int) UnitState.WalkDown);
-                }
-            }
-        } else if (offset.x < 0) {
-            if (offset.y > 0) {
-                if (Mathf.Abs (offset.x) > offset.y) {
-                    database.GetComponent<Animator> ().SetInteger ("UnitState", (int) UnitState.WalkLeft);
-                } else if (Mathf.Abs (offset.x) < offset.y) {
-                    database.GetComponent<Animator> ().SetInteger ("UnitState", (int) UnitState.WalkUp);
-                }
-            } else if (offset.y < 0) {
-                if (Mathf.Abs (offset.x) > Mathf.Abs (offset.y)) {
-                    database.GetComponent<Animator> ().SetInteger ("UnitState", (int) UnitState.WalkLeft);
-                } else if (Mathf.Abs (offset.x) < Mathf.Abs (offset.y)) {
-                    database.GetComponent<Animator> ().SetInteger ("UnitState", (int) UnitState.WalkDown);
-                }
-            }
-        }
+    protected abstract void UpdateFaceDirection ();
+
+    protected virtual bool CanAttack () {
+        return true;
     }
+
     protected override BTResult Execute () {
 
         if (CheckDead ()) {
+            return BTResult.Ended;
+        }
+        if (!CanAttack ()) {
             return BTResult.Ended;
         }
         UpdateDestination ();

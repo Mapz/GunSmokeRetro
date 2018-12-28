@@ -27,7 +27,7 @@ public class SpawnerEditWindow : EditorWindow {
         EditorGUILayout.Vector3Field ("位置：", m_position, null);
         EditorGUILayout.Space ();
 
-        // m_unitSpawner.spawns.TryGetValue (m_position, out sd);
+        if (null == m_unitSpawner || null == m_unitSpawner.spawns) return;
         if (m_index >= m_unitSpawner.spawns.Count) {
             m_unitSpawner.spawns.Add (new SpawnData (m_position, null, 1, 0.1f));
         }

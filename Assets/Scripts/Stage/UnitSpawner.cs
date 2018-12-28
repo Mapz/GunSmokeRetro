@@ -36,23 +36,24 @@ public class SpawnData {
         active = _active;
     }
 
-    public void UpdateSpawn (float delta, Grid grid, Transform parent) {
+    public void UpdateSpawn (float delta, Grid grid, Transform parent, Transform spawnerTransform) {
         if (!active) return;
         if (curCount >= maxCount) return;
         curTime -= delta;
         if (curTime <= 0) {
-            Spawn (grid, parent);
+            Spawn (grid, parent, spawnerTransform);
             curCount++;
             curTime = interval;
         }
     }
 
-    public void Spawn (Grid grid, Transform parent) {
+    public void Spawn (Grid grid, Transform parent, Transform spawnerTransform) {
         GameObject enemy = ObjectMgr<Unit>.Instance.Create (() => {
             return GameObject.Instantiate (EnemeyToProduce).GetComponent<Unit> ();
         }).gameObject;
         enemy.transform.parent = parent;
-        enemy.transform.position = grid.CellToLocal (position) + grid.cellSize;
+        enemy.transform.position = grid.CellToLocal (position) + spawnerTransform.position + grid.cellSize / 2;
+        enemy.transform.position += enemy.GetComponent<Unit>().m_positionFffsetOnCreate;
     }
 }
 
@@ -75,7 +76,7 @@ public class UnitSpawner : MonoBehaviour {
             Debug.Log (transform.position + m_grid.CellToLocal (data.position));
             if (Game.pointInSpawnArea (transform.position + m_grid.CellToLocal (data.position))) {
                 data.SetActive (true);
-                data.UpdateSpawn (Time.deltaTime, m_grid, m_unitParent);
+                data.UpdateSpawn (Time.deltaTime, m_grid, m_unitParent, transform);
             } else {
                 data.SetActive (false);
             }

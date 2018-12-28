@@ -1,7 +1,7 @@
 using BT;
 using UnityEngine;
 
-public class Enemy1AI : BTTree {
+public class EnemyWindownerAI : BTTree {
     protected override void Init () {
         base.Init ();
 
@@ -14,16 +14,9 @@ public class Enemy1AI : BTTree {
 
         GameObject hero = GameObject.Find ("Game").GetComponent<Game> ().m_hero.gameObject;
 
-        // 太近了就后退
-        DoKeepDistanceAround keepDistance = new DoKeepDistanceAround (hero, 80, new CheckInOrOutSight (70, hero, true));
-        _root.AddChild (keepDistance);
         // 在射程就射击
         // _root.AddChild (new DoAttack (hero, new CheckInOrOutSight (90, hero, true)));
-        _root.AddChild (new DoAttackDoAttackEnemy1 (hero, new CheckInOrOutSight (90, hero, true)));
-        // 太远了跑向主角
-        DoRun findPlayer = new DoRun (hero, 80, new CheckInOrOutSight (80, hero, false));
-        // findPlayer.interval = 0.1f;
-        _root.AddChild (findPlayer);
+        _root.AddChild (new DoAttackEnemyWindowner (hero, this.GetComponent<EnemyWindowerBehavior> ().windownerDirection, new CheckInOrOutSight (100, hero, true)));
 
     }
 }
