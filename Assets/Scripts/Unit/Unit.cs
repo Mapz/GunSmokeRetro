@@ -18,12 +18,19 @@ public abstract class Unit : MonoBehaviour, PauseAble {
 
     void Awake () {
         game = GameObject.Find ("Game").GetComponent<Game> ();
-        
+
     }
 
     protected void Update () {
         if (m_isPause) return;
         UpdatePosition ();
+        CheckOutOffOutterScreen();
+    }
+
+    private void CheckOutOffOutterScreen () {
+        if (!Game.pointInOutterScreen (transform.position)) {
+            ObjectMgr<Unit>.Instance.Destroy (this);
+        }
     }
 
     protected virtual void UpdatePosition () { }

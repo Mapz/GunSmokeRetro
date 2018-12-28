@@ -37,6 +37,7 @@ public class SpawnerEditWindow : EditorWindow {
         GUI.enabled = true;
         m_unitSpawner.spawns[m_index].maxCount = EditorGUILayout.DelayedIntField ("生产最大数：", sd.maxCount);
         m_unitSpawner.spawns[m_index].interval = EditorGUILayout.DelayedFloatField ("敌人产生间隔：", sd.interval);
+        m_unitSpawner.spawns[m_index].rateOfSpawn = EditorGUILayout.Slider ("敌人产生概率(0~1)：", sd.rateOfSpawn, 0, 1, null);
         m_unitSpawner.spawns[m_index].EnemeyToProduce = (GameObject) EditorGUILayout.ObjectField ("敌人prefab：", sd.EnemeyToProduce, typeof (GameObject), null);
         EditorGUILayout.Space ();
 

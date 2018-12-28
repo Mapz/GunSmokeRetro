@@ -10,6 +10,7 @@ public class SpawnData {
     public GameObject EnemeyToProduce;
     public int maxCount;
     public float interval;
+    public float rateOfSpawn;
     private int curCount = 0;
     private float curTime = 0;
     private bool active = false;
@@ -22,6 +23,7 @@ public class SpawnData {
         curCount = 0;
         curTime = interval;
         active = false;
+        rateOfSpawn = 1;
     }
 
     public SpawnData CloneSetPos (Vector3Int _position) {
@@ -48,12 +50,13 @@ public class SpawnData {
     }
 
     public void Spawn (Grid grid, Transform parent, Transform spawnerTransform) {
+        if (UnityEngine.Random.Range (0f, 1f) >= rateOfSpawn) return;
         GameObject enemy = ObjectMgr<Unit>.Instance.Create (() => {
             return GameObject.Instantiate (EnemeyToProduce).GetComponent<Unit> ();
         }).gameObject;
         enemy.transform.parent = parent;
         enemy.transform.position = grid.CellToLocal (position) + spawnerTransform.position + grid.cellSize / 2;
-        enemy.transform.position += enemy.GetComponent<Unit>().m_positionFffsetOnCreate;
+        enemy.transform.position += enemy.GetComponent<Unit> ().m_positionFffsetOnCreate;
     }
 }
 

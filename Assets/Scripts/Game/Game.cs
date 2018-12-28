@@ -11,21 +11,23 @@ public enum GameState {
     HeroFail,
 }
 
+// TODO:生怪器坐标修正 完成
 // TODO:PropertyBrush增加屏幕显示 完成
 // TODO:生怪器用生怪刷搞定 完成
+// TODO:刷怪器概率刷怪 完成
 // TODO:随机障碍物系统
 // TODO:UI系统
 // TODO:Boss系统
 // TODO:Unit 离开AI
 // TODO:Unit 离开销毁AI
-// TODO:生怪器坐标修正
 
 public class Game : MonoBehaviour, PauseAble {
     [System.NonSerialized]
     //屏幕界限
     private static Bounds screenBounds;
     //屏幕外部界限
-    private static Bounds outerBounds;
+    private static Bounds outterBounds;
+    private static Bounds spawnerActiveBounds; // 要比上面那个小
     private Camera camera;
     public GameObject LevelPrefab;
     public GameObject HeroPrefab;
@@ -56,7 +58,8 @@ public class Game : MonoBehaviour, PauseAble {
                 camera = GameObject.Find ("Main Camera").GetComponent<Camera> ();
                 PixelPerfectCamera ppc = GameObject.Find ("Main Camera").GetComponent<PixelPerfectCamera> ();
                 screenBounds = new Bounds (new Vector3 (0, 0, 0), new Vector3 (ppc.refResolutionX, ppc.refResolutionY, 0));
-                outerBounds = new Bounds (new Vector3 (0, 0, 0), new Vector3 (ppc.refResolutionX * 1.5f, ppc.refResolutionY * 1.5f, 0));
+                outterBounds = new Bounds (new Vector3 (0, 0, 0), new Vector3 (ppc.refResolutionX * 1.5f, ppc.refResolutionY * 1.5f, 0));
+                spawnerActiveBounds = new Bounds (new Vector3 (0, 0, 0), new Vector3 (ppc.refResolutionX * 1.3f, ppc.refResolutionY * 1.3f, 0));
                 SetGameState (GameState.Loading);
                 break;
             case GameState.HeroFail:
@@ -149,10 +152,10 @@ public class Game : MonoBehaviour, PauseAble {
     }
 
     public static bool pointInOutterScreen (Vector3 point) {
-        return outerBounds.Contains (point);
+        return outterBounds.Contains (point);
     }
 
     public static bool pointInSpawnArea (Vector3 point) {
-        return (!screenBounds.Contains (point) && outerBounds.Contains (point));
+        return (!screenBounds.Contains (point) && spawnerActiveBounds.Contains (point));
     }
 }
