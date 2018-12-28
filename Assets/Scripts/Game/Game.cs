@@ -33,7 +33,9 @@ public class Game : MonoBehaviour, PauseAble {
     public GameObject HeroPrefab;
     [System.NonSerialized]
     public HeroBehavior m_hero;
-    private RollingLayer m_rolling;
+
+    [System.NonSerialized]
+    public static RollingLayer m_rolling;
     [System.NonSerialized]
     public GameObject m_level;
     private GameState m_state;

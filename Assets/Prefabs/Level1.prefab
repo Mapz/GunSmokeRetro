@@ -74,4 +74,6 @@ MonoBehaviour:
   - {fileID: 6788988409159297901, guid: c44f0c2b5565a415087390e917114096, type: 3}
   initLoop: {fileID: 6788988409159297901, guid: c44f0c2b5565a415087390e917114096,
     type: 3}
+  bossLoop: {fileID: 6788988409159297901, guid: c44f0c2b5565a415087390e917114096,
+    type: 3}
   camera: {fileID: 0}
