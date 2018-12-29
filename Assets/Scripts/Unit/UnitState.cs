@@ -8,10 +8,12 @@ public enum UnitState {
     WalkDown = 6,
     JumpRight = 7,
     JumpLeft = 8,
+    CrawlDown = 9,
     Die = 10,
     ShootRightUp = 11,
     ShootRightDown = 12,
     ShootLeftUp = 13,
     ShootLeftDown = 14,
     Die2 = 15,
+
 }

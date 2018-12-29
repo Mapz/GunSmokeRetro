@@ -15,11 +15,15 @@ public enum GameState {
 // TODO:PropertyBrush增加屏幕显示 完成
 // TODO:生怪器用生怪刷搞定 完成
 // TODO:刷怪器概率刷怪 完成
+// TODO:Unit 离开销毁 完成
 // TODO:随机障碍物系统
 // TODO:UI系统
 // TODO:Boss系统
 // TODO:Unit 离开AI
-// TODO:Unit 离开销毁AI
+// TODO:子弹影子用Shader来制作
+// TODO:Unit 配置表化
+// TODO:加载资源化
+// TODO:Boss1动画锚点优化
 
 public class Game : MonoBehaviour, PauseAble {
     [System.NonSerialized]

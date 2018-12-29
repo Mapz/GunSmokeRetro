@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
-public class Enemy1Behavior : Unit {
+public class Boss1Behavior : Unit {
 
 
     new void Update () {
@@ -14,5 +14,7 @@ public class Enemy1Behavior : Unit {
 
     protected override void Die () {
         transform.DOMoveY (3f, 0.2f).SetRelative ();
+
+        //TODO:BossDieFunc
     }
 }

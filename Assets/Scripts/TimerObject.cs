@@ -5,10 +5,12 @@ using UnityEngine;
 public class EnumTimer {
     public Action action;
     public float timeToWait;
+    public int m_loop;
 
-    public EnumTimer (Action _action, float _timeToWait) {
+    public EnumTimer (Action _action, float _timeToWait, int _loop = 1) {
         action = _action;
         timeToWait = _timeToWait;
+        m_loop = _loop;
     }
 
     public void StartTimeout (MonoBehaviour mb) {
@@ -16,7 +18,9 @@ public class EnumTimer {
     }
 
     IEnumerator TimtToDo () {
-        yield return new WaitForSecondsRealtime (timeToWait);
-        action ();
+        for (int i = 0; i < m_loop; i++) {
+            yield return new WaitForSecondsRealtime (timeToWait);
+            action ();
+        }
     }
 }

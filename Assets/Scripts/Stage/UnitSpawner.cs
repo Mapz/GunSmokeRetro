@@ -76,7 +76,7 @@ public class UnitSpawner : MonoBehaviour {
     void Update () {
         foreach (var data in spawns) {
             // Debug.Log (m_grid.CellToLocal (data.position));
-            Debug.Log (transform.position + m_grid.CellToLocal (data.position));
+            // Debug.Log (transform.position + m_grid.CellToLocal (data.position));
             if (Game.pointInSpawnArea (transform.position + m_grid.CellToLocal (data.position))) {
                 data.SetActive (true);
                 data.UpdateSpawn (Time.deltaTime, m_grid, m_unitParent, transform);

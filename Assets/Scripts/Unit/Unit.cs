@@ -7,7 +7,7 @@ using UnityEngine;
 public abstract class Unit : MonoBehaviour, PauseAble {
     public float m_HP = 5;
     public float m_moveSpeed = 35;
-    public Animator m_animator;
+    protected Animator m_animator;
     public List<WeaponsBehavior> m_weapons;
     public Team m_team;
     protected Game game;
@@ -18,13 +18,13 @@ public abstract class Unit : MonoBehaviour, PauseAble {
 
     void Awake () {
         game = GameObject.Find ("Game").GetComponent<Game> ();
-
+        m_animator = GetComponent<Animator> ();
     }
 
     protected void Update () {
         if (m_isPause) return;
         UpdatePosition ();
-        CheckOutOffOutterScreen();
+        CheckOutOffOutterScreen ();
     }
 
     private void CheckOutOffOutterScreen () {
