@@ -20,8 +20,7 @@ public class DoRunBack : BTAction {
     public override void Activate (Database database) {
         base.Activate (database);
         _trans = database.transform;
-        PixelPerfectCamera ppc = GameObject.Find ("Main Camera").GetComponent<PixelPerfectCamera> ();
-        _destination = new Vector3 (_trans.position.x, ppc.refResolutionY / 2 - _distanceToUpScreen, 0);
+        _destination = new Vector3 (_trans.position.x, GameVars.ppCamera.refResolutionY / 2 - _distanceToUpScreen, 0);
     }
 
     protected override BTResult Execute () {
@@ -40,7 +39,7 @@ public class DoRunBack : BTAction {
     }
 
     private void UpdateFaceDirection () {
-        
+
     }
 
     private bool CheckDead () {
@@ -51,11 +50,12 @@ public class DoRunBack : BTAction {
 
     private bool CheckArrived () {
         Vector3 offset = _destination - _trans.position;
+        // Debug.Log (offset);
         return offset.sqrMagnitude < 1f;
     }
 
     private void MoveToDestination () {
         Vector3 direction = (_destination - _trans.position).normalized;
-        database.GetComponent<Rigidbody2D> ().velocity = direction * database.GetComponent<Unit> ().m_moveSpeed;
+        database.GetComponent<Unit> ().SetVelocity (direction * database.GetComponent<Unit> ().m_moveSpeed);
     }
 }

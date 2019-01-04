@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.U2D;
+using UnityEngine.UI;
 public enum GameState {
     Init,
+    TitleScreen,
     Loading,
     InGame,
     Pause,
-    HeroFail,
+    InGameOver,
 }
 
 // TODO:生怪器坐标修正 完成
@@ -16,14 +18,19 @@ public enum GameState {
 // TODO:生怪器用生怪刷搞定 完成
 // TODO:刷怪器概率刷怪 完成
 // TODO:Unit 离开销毁 完成
+// TODO:Boss1动画锚点优化 完成
+// TODO:TitleScreen 完成
 // TODO:随机障碍物系统
 // TODO:UI系统
-// TODO:Boss系统
+// TODO:Boss系统,Boss移动方式
 // TODO:Unit 离开AI
 // TODO:子弹影子用Shader来制作
 // TODO:Unit 配置表化
 // TODO:加载资源化
-// TODO:Boss1动画锚点优化
+// TODO:优化朝向动画设置逻辑
+// TODO:Boss死后，游戏冻结，主角不能受伤
+// TODO:关卡头演绎
+// TODO:声音
 
 public class Game : MonoBehaviour, PauseAble {
     [System.NonSerialized]
@@ -32,7 +39,6 @@ public class Game : MonoBehaviour, PauseAble {
     //屏幕外部界限
     private static Bounds outterBounds;
     private static Bounds spawnerActiveBounds; // 要比上面那个小
-    private Camera camera;
     public GameObject LevelPrefab;
     public GameObject HeroPrefab;
     [System.NonSerialized]
@@ -43,10 +49,12 @@ public class Game : MonoBehaviour, PauseAble {
     [System.NonSerialized]
     public GameObject m_level;
     private GameState m_state;
-
+    public GameObject m_titlePrefab;
     private bool m_onChangeState = false;
     private GameState m_lastState;
     public Grid m_grid;
+    public static bool m_isPaused;
+    private GameObject m_titleScreen;
     public void SetGameState (GameState state) {
         m_onChangeState = true;
         m_lastState = m_state;
@@ -54,25 +62,54 @@ public class Game : MonoBehaviour, PauseAble {
     }
 
     void Awake () {
+        _Init ();
         SetGameState (GameState.Init);
+    }
+
+    private void _Init () {
+        GameVars.mainCamera = GameObject.Find ("Main Camera").GetComponent<Camera> ();
+        GameVars.ppCamera = GameObject.Find ("Main Camera").GetComponent<PixelPerfectCamera> ();
+        GameVars.UICanvas = GameObject.Find ("UICanvas").GetComponent<Canvas> ();
+        GameVars.ScreenHeight = GameVars.ppCamera.refResolutionY;
+        GameVars.ScreenWidth = GameVars.ppCamera.refResolutionX;
+    }
+
+    private void Init () {
+        screenBounds = new Bounds (new Vector3 (0, 0, 0), new Vector3 (GameVars.ppCamera.refResolutionX, GameVars.ppCamera.refResolutionY, 0));
+        outterBounds = new Bounds (new Vector3 (0, 0, 0), new Vector3 (GameVars.ppCamera.refResolutionX * 1.5f, GameVars.ppCamera.refResolutionY * 1.5f, 0));
+        spawnerActiveBounds = new Bounds (new Vector3 (0, 0, 0), new Vector3 (GameVars.ppCamera.refResolutionX * 1.3f, GameVars.ppCamera.refResolutionY * 1.3f, 0));
+    }
+
+    private void LoadTitle () {
+        m_titleScreen = Instantiate (m_titlePrefab) as GameObject;
+        m_titleScreen.transform.SetParent (GameVars.UICanvas.transform, false);
+        Text pushStart = GameObject.Find ("TextPushStart").GetComponent<Text> ();
+        FadeCamera fade = GameVars.mainCamera.gameObject.AddComponent<FadeCamera> ();
+        fade.duration = 1.5f;
+        fade.start = 1;
+        fade.end = 0;
+        fade.callBack = () => {
+            DOTween.ToAlpha (() => pushStart.color, x => pushStart.color = x, 0f, 0.4f).SetLoops (-1, LoopType.Yoyo);
+            Destroy (fade);
+        };
+        fade.DoFade ();
     }
 
     private void OnChangeState (GameState newState, GameState oldState) {
         m_onChangeState = false;
         switch (newState) {
             case GameState.Init:
-                camera = GameObject.Find ("Main Camera").GetComponent<Camera> ();
-                PixelPerfectCamera ppc = GameObject.Find ("Main Camera").GetComponent<PixelPerfectCamera> ();
-                screenBounds = new Bounds (new Vector3 (0, 0, 0), new Vector3 (ppc.refResolutionX, ppc.refResolutionY, 0));
-                outterBounds = new Bounds (new Vector3 (0, 0, 0), new Vector3 (ppc.refResolutionX * 1.5f, ppc.refResolutionY * 1.5f, 0));
-                spawnerActiveBounds = new Bounds (new Vector3 (0, 0, 0), new Vector3 (ppc.refResolutionX * 1.3f, ppc.refResolutionY * 1.3f, 0));
-                SetGameState (GameState.Loading);
+                Init ();
+                SetGameState (GameState.TitleScreen);
                 break;
-            case GameState.HeroFail:
+            case GameState.TitleScreen:
+                LoadTitle ();
+                break;
+            case GameState.InGameOver:
                 ObjectMgr<BulletBehavior>.Instance.PauseAll (true);
                 ObjectMgr<Unit>.Instance.PauseAll (true);
                 m_rolling.Pause (true);
-                FadeCamera fade = camera.gameObject.AddComponent<FadeCamera> ();
+                FadeCamera fade = GameVars.mainCamera.gameObject.AddComponent<FadeCamera> ();
                 fade.duration = 3;
                 fade.start = 0;
                 fade.end = 1;
@@ -99,6 +136,7 @@ public class Game : MonoBehaviour, PauseAble {
         ObjectMgr<BulletBehavior>.Instance.PauseAll (_pause);
         ObjectMgr<Unit>.Instance.PauseAll (_pause);
         m_rolling.Pause (_pause);
+        m_isPaused = _pause;
     }
 
     private void Update () {
@@ -108,6 +146,12 @@ public class Game : MonoBehaviour, PauseAble {
             case GameState.Init:
                 break;
             case GameState.Loading:
+                break;
+            case GameState.TitleScreen:
+                if (Input.GetKeyDown ("b")) {
+                    Destroy (m_titleScreen);
+                    SetGameState (GameState.Loading);
+                }
                 break;
             case GameState.InGame:
                 if (Input.GetKeyDown ("p")) {

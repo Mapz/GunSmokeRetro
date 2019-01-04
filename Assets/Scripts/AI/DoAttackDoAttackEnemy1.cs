@@ -10,6 +10,7 @@ public class DoAttackDoAttackEnemy1 : DoAttack {
     }
 
     protected override void UpdateFaceDirection () {
+        if (database.GetComponent<Animator> ().GetInteger ("UnitState") == (int) UnitState.CrawlDown) return;
         Vector3 offset = _destination - _trans.position;
         if (offset.x > 0) {
             if (offset.y > 0) {

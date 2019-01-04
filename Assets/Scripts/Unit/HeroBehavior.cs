@@ -70,7 +70,7 @@ public class HeroBehavior : Unit {
     }
 
     protected override void Die () {
-        game.SetGameState (GameState.HeroFail);
+        game.SetGameState (GameState.InGameOver);
     }
 
 }

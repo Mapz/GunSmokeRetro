@@ -4,12 +4,9 @@ using BT;
 using UnityEngine;
 public class DoRunLeftRight : BTAction {
 
-
     private Transform _trans;
 
-
-    public DoRunLeftRight ( BTPrecondition precondition = null) : base (precondition) {
-    }
+    public DoRunLeftRight (BTPrecondition precondition = null) : base (precondition) { }
 
     public override void Activate (Database database) {
         base.Activate (database);
@@ -38,8 +35,7 @@ public class DoRunLeftRight : BTAction {
         return true;
     }
 
-
     private void Move () {
-        database.GetComponent<Rigidbody2D> ().velocity = Vector3.right * Random.Range(-1,1) * database.GetComponent<Unit> ().m_moveSpeed;
+        database.GetComponent<Unit> ().SetVelocity (Vector3.right * Random.Range (-1, 1) * database.GetComponent<Unit> ().m_moveSpeed);
     }
 }

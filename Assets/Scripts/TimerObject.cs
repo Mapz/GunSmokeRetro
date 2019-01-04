@@ -6,6 +6,7 @@ public class EnumTimer {
     public Action action;
     public float timeToWait;
     public int m_loop;
+    
 
     public EnumTimer (Action _action, float _timeToWait, int _loop = 1) {
         action = _action;

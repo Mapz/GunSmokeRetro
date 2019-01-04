@@ -40,7 +40,7 @@ public abstract class DoAttack : BTAction {
         UpdateFaceDirection ();
         Attack ();
         return BTResult.Running;
-        // return BTResult.Ended;
+    // return BTResult.Ended;
     }
     protected override void Exit () {
         if (_weapons.Count > 0) {

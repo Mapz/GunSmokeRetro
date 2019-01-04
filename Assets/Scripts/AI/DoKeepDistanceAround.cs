@@ -36,6 +36,7 @@ public class DoKeepDistanceAround : BTAction {
     }
 
     private void UpdateFaceDirection () {
+        if (database.GetComponent<Animator> ().GetInteger ("UnitState") == (int) UnitState.CrawlDown) return;
         Vector3 offset = _target.transform.position - _trans.position;
         if (offset.x > 0) {
             if (offset.y > 0) {
@@ -82,6 +83,6 @@ public class DoKeepDistanceAround : BTAction {
     private void MoveToDestination () {
         Vector3 direction = -(_target.transform.position - _trans.position).normalized;
         // Debug.Log ("Direction:" + direction);
-        database.GetComponent<Rigidbody2D> ().velocity = direction * database.GetComponent<Unit> ().m_moveSpeed;
+        database.GetComponent<Unit> ().SetVelocity (direction * database.GetComponent<Unit> ().m_moveSpeed);
     }
 }

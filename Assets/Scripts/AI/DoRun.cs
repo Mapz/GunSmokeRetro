@@ -15,7 +15,6 @@ public class DoRun : BTAction {
     public DoRun (GameObject target, float distance, BTPrecondition precondition = null) : base (precondition) {
         _target = target;
         _distance = distance;
-
     }
 
     public override void Activate (Database database) {
@@ -43,6 +42,7 @@ public class DoRun : BTAction {
     }
 
     private void UpdateFaceDirection () {
+        if (database.GetComponent<Animator> ().GetInteger ("UnitState") == (int) UnitState.CrawlDown) return;
         Vector3 offset = _destination - _trans.position;
         if (offset.x > 0) {
             if (offset.y > 0) {
@@ -88,6 +88,6 @@ public class DoRun : BTAction {
 
     private void MoveToDestination () {
         Vector3 direction = (_destination - _trans.position).normalized;
-        database.GetComponent<Rigidbody2D> ().velocity = direction * database.GetComponent<Unit> ().m_moveSpeed;
+        database.GetComponent<Unit> ().SetVelocity (direction * database.GetComponent<Unit> ().m_moveSpeed);
     }
 }

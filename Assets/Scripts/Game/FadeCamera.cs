@@ -17,12 +17,14 @@ public class FadeCamera : MonoBehaviour {
 
     public TweenCallback callBack { get { return _callBack; } set { _callBack = value; } }
 
+    public int loop = 1;
+
     public void DoFade () {
         _color = new Color (0, 0, 0, _start);
         DOTween.ToAlpha (() => _color, (x) => _color = x, _end, _duration).OnComplete (() => {
             _done = true;
             if (null != _callBack) _callBack ();
-        });
+        }).SetLoops (loop, LoopType.Yoyo);
     }
 
     public void OnGUI () {

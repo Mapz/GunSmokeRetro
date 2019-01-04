@@ -170,6 +170,8 @@ MonoBehaviour:
   m_team: 2
   m_isDead: 0
   m_positionFffsetOnCreate: {x: 0, y: 0, z: 0}
+  m_moveType: 0
+  m_onHitCrawlTime: 6
 --- !u!114 &2991894532367960963
 MonoBehaviour:
   m_ObjectHideFlags: 0

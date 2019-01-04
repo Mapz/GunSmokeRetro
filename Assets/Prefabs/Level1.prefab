@@ -74,6 +74,10 @@ MonoBehaviour:
   - {fileID: 6788988409159297901, guid: c44f0c2b5565a415087390e917114096, type: 3}
   initLoop: {fileID: 6788988409159297901, guid: c44f0c2b5565a415087390e917114096,
     type: 3}
+  m_bossHPBarRes: {fileID: 7002776215440057548, guid: fba6e52f55d694451b42140f483dcba6,
+    type: 3}
   bossLoop: {fileID: 6788988409159297901, guid: c44f0c2b5565a415087390e917114096,
     type: 3}
   camera: {fileID: 0}
+  bossPrefab: {fileID: 2991894532367960987, guid: ca8ca7068ef234bcdb127c99f76e509e,
+    type: 3}
