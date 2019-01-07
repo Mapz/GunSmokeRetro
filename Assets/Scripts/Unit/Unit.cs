@@ -11,13 +11,14 @@ public enum UnitMoveType {
 
 public abstract class Unit : MonoBehaviour, PauseAble {
 
-    [SerializeField] 
+    [SerializeField]
     private float _HP = 5;
     public float m_HP {
         get { return _HP; } set {
+            if (GameVars.Game.m_state != GameState.InGame) return;
             _HP = value;
-            if (null != m_HPBar && m_HP >= 0) {
-                m_HPBar.SetHP ((int) m_HP);
+            if (null != m_HPBar && _HP >= 0) {
+                m_HPBar.SetHP ((int) _HP);
             }
         }
     }
@@ -134,9 +135,6 @@ public abstract class Unit : MonoBehaviour, PauseAble {
         }
         Destroy (GetComponent<Rigidbody2D> ());
         Destroy (GetComponent<Collider2D> ());
-        // if (m_HPBar) {
-        //     Destroy (m_HPBar.gameObject);
-        // }
         Die ();
         new EnumTimer (() => {
             ObjectMgr<Unit>.Instance.Destroy (this);

@@ -3,7 +3,7 @@ using UnityEngine;
 public class FadeCamera : MonoBehaviour {
 
     private Texture2D _texture;
-    private bool _done;
+    public bool _done = true;
     private float _duration;
     private Color _color;
     private float _start;
@@ -20,6 +20,7 @@ public class FadeCamera : MonoBehaviour {
     public int loop = 1;
 
     public void DoFade () {
+        _done = false;
         _color = new Color (0, 0, 0, _start);
         DOTween.ToAlpha (() => _color, (x) => _color = x, _end, _duration).OnComplete (() => {
             _done = true;

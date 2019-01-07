@@ -28,6 +28,7 @@ public abstract class WeaponsBehavior : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
+        if (Game.m_isPaused) return;
         _coolDown -= Time.deltaTime;
         if (active && _coolDown <= 0) {
             Fire ();

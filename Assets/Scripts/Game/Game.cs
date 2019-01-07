@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public enum GameState {
     Init,
     TitleScreen,
+    WantedScreen,
     Loading,
     InGame,
     Pause,
@@ -74,6 +75,7 @@ public class Game : MonoBehaviour, PauseAble {
         GameVars.Game = this;
         GameVars.ScreenHeight = GameVars.ppCamera.refResolutionY;
         GameVars.ScreenWidth = GameVars.ppCamera.refResolutionX;
+        Utility.Init ();
     }
 
     private void Init () {
@@ -85,16 +87,7 @@ public class Game : MonoBehaviour, PauseAble {
     private void LoadTitle () {
         m_titleScreen = Instantiate (m_titlePrefab) as GameObject;
         m_titleScreen.transform.SetParent (GameVars.UICanvas.transform, false);
-        Text pushStart = GameObject.Find ("TextPushStart").GetComponent<Text> ();
-        FadeCamera fade = GameVars.mainCamera.gameObject.AddComponent<FadeCamera> ();
-        fade.duration = 1.5f;
-        fade.start = 1;
-        fade.end = 0;
-        fade.callBack = () => {
-            DOTween.ToAlpha (() => pushStart.color, x => pushStart.color = x, 0f, 0.4f).SetLoops (-1, LoopType.Yoyo);
-            Destroy (fade);
-        };
-        fade.DoFade ();
+        Utility.Fade (1.5f, true);
     }
 
     private void OnChangeState (GameState newState, GameState oldState) {
@@ -112,16 +105,10 @@ public class Game : MonoBehaviour, PauseAble {
                 ObjectMgr<Unit>.Instance.PauseAll (true);
                 m_rolling.Pause (true);
                 GameVars.InGameUI.LevelEnd ();
-                FadeCamera fade = GameVars.mainCamera.gameObject.AddComponent<FadeCamera> ();
-                fade.duration = 3;
-                fade.start = 0;
-                fade.end = 1;
-                fade.DoFade ();
-                fade.callBack = () => {
+                Utility.Fade (3f, false, () => {
                     unloadLevel ();
                     SetGameState (GameState.Loading);
-                    Destroy (fade);
-                };
+                });
                 break;
             case GameState.Loading:
                 GameVars.newLevel ();
@@ -154,8 +141,16 @@ public class Game : MonoBehaviour, PauseAble {
                 break;
             case GameState.TitleScreen:
                 if (Input.GetKeyDown ("b")) {
-                    Destroy (m_titleScreen);
-                    SetGameState (GameState.Loading);
+                    //TODO :AfterPressedLockKeyDown
+                    Text pushStart = GameObject.Find ("TextPushStart").GetComponent<Text> ();
+                    DOTween.ToAlpha (() => pushStart.color, x => pushStart.color = x, 0f, 0.1f).SetLoops (5, LoopType.Yoyo).OnComplete (
+                        () => {
+                            Utility.Fade (1.5f, false, () => {
+                                Destroy (m_titleScreen);
+                                SetGameState (GameState.Loading);
+                            });
+                        }
+                    );
                 }
                 break;
             case GameState.InGame:
