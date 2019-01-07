@@ -191,9 +191,9 @@ Tilemap:
   - m_RefCount: 2
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   - m_RefCount: 5
-    m_Data: {r: 0.9606156, g: 0.56893826, b: 0.6329948, a: 1}
+    m_Data: {r: 0.9126885, g: 0.47294396, b: 0.49688637, a: 1}
   - m_RefCount: 0
-    m_Data: {r: 0.89761156, g: 0.37448078, b: 0.4314565, a: 1}
+    m_Data: {r: 0.9928501, g: 0.47002992, b: 0.5570576, a: 1}
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Origin: {x: -3, y: 1, z: 0}
@@ -6350,26 +6350,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawns:
   - position: {x: -3, y: 11, z: 0}
-    EnemeyToProduce: {fileID: 6151574279207998833, guid: 6251f848533f84352aa2abf0f3153974,
-      type: 3}
+    enemyName: Enemy1
     maxCount: 1
     interval: 0.1
     rateOfSpawn: 0.49
   - position: {x: 4, y: 11, z: 0}
-    EnemeyToProduce: {fileID: 6151574279207998833, guid: 6251f848533f84352aa2abf0f3153974,
-      type: 3}
+    enemyName: Enemy1
     maxCount: 1
     interval: 0.1
     rateOfSpawn: 0.196
   - position: {x: 6, y: 8, z: 0}
-    EnemeyToProduce: {fileID: 4524593632364044838, guid: 57e489ffeb8e1497ca907d8312603f6e,
-      type: 3}
+    enemyName: EnemyWindowerFacingLeft
     maxCount: 1
     interval: 0.1
     rateOfSpawn: 0.647
   - position: {x: -7, y: 6, z: 0}
-    EnemeyToProduce: {fileID: 6200929961520333887, guid: 5de13ac04f59945b5968f9c67d0d9c6c,
-      type: 3}
+    enemyName: EnemyWindowerFacingRight
     maxCount: 1
     interval: 0.1
     rateOfSpawn: 0.765

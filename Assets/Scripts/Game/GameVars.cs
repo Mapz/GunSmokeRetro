@@ -29,6 +29,8 @@ public static class GameVars {
         set { _ppCamera = value; }
     }
 
+    public static Grid tileGrid;
+
     private static int _money = 0;
 
     public static int money {

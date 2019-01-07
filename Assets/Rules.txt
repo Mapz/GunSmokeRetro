@@ -1,0 +1,5 @@
+[BuildAssetsWithDirectroyName]
+searchPath=Assets/AssetsToBuild
+searchPattern=*.*
+searchOption=AllDirectories
+bundleName=

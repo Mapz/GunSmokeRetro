@@ -542,8 +542,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LevelPrefab: {fileID: 8265983409429612128, guid: 37694f6cfa6db43259cd36f5575d0800,
     type: 3}
-  HeroPrefab: {fileID: 5673298778806388584, guid: dd7ce47cb5f8c4f2483148d419997c11,
-    type: 3}
   m_titlePrefab: {fileID: 2616193308479310100, guid: 4a6906fd2367e45099e4adcbe940dbc5,
     type: 3}
   m_grid: {fileID: 0}

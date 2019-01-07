@@ -4,6 +4,7 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.U2D;
 using UnityEngine.UI;
+using XAsset;
 public enum GameState {
     Init,
     TitleScreen,
@@ -41,7 +42,8 @@ public class Game : MonoBehaviour, PauseAble {
     private static Bounds outterBounds;
     private static Bounds spawnerActiveBounds; // 要比上面那个小
     public GameObject LevelPrefab;
-    public GameObject HeroPrefab;
+    // string heroAssetPath = "Hero.prefab";
+
     [System.NonSerialized]
     public HeroBehavior m_hero;
 
@@ -54,7 +56,6 @@ public class Game : MonoBehaviour, PauseAble {
     public GameObject m_titlePrefab;
     private bool m_onChangeState = false;
     private GameState m_lastState;
-    public Grid m_grid;
     public static bool m_isPaused;
     private GameObject m_titleScreen;
     public void SetGameState (GameState state) {
@@ -170,10 +171,10 @@ public class Game : MonoBehaviour, PauseAble {
 
     public void loadLevel () {
         m_level = Instantiate (LevelPrefab);
-        m_grid = m_level.GetComponent<Grid> ();
+        GameVars.tileGrid = m_level.GetComponent<Grid> ();
         m_rolling = m_level.GetComponent<RollingLayer> ();
         m_hero = (HeroBehavior) ObjectMgr<Unit>.Instance.Create (() => {
-            return Instantiate (HeroPrefab).GetComponent<HeroBehavior> ();
+            return Utility.CreateUnit ("Hero");
         });
     }
 

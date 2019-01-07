@@ -7,7 +7,8 @@ using UnityEngine;
 public class SpawnData {
 
     public Vector3Int position;
-    public GameObject EnemeyToProduce;
+    // public GameObject EnemeyToProduce;
+    public string enemyName;
     public int maxCount;
     public float interval;
     public float rateOfSpawn;
@@ -15,9 +16,9 @@ public class SpawnData {
     private float curTime = 0;
     private bool active = false;
 
-    public SpawnData (Vector3Int _position, GameObject _EnemeyToProduce, int _maxCount, float _interval) {
+    public SpawnData (Vector3Int _position, string _enemyName, int _maxCount, float _interval) {
         position = _position;
-        EnemeyToProduce = _EnemeyToProduce;
+        enemyName = _enemyName;
         maxCount = _maxCount;
         interval = _interval;
         curCount = 0;
@@ -27,7 +28,7 @@ public class SpawnData {
     }
 
     public SpawnData CloneSetPos (Vector3Int _position) {
-        return new SpawnData (_position, EnemeyToProduce, maxCount, interval);
+        return new SpawnData (_position, enemyName, maxCount, interval);
     }
 
     public void SetPosition (Vector3Int _position) {
@@ -52,7 +53,7 @@ public class SpawnData {
     public void Spawn (Grid grid, Transform parent, Transform spawnerTransform) {
         if (UnityEngine.Random.Range (0f, 1f) >= rateOfSpawn) return;
         GameObject enemy = ObjectMgr<Unit>.Instance.Create (() => {
-            return GameObject.Instantiate (EnemeyToProduce).GetComponent<Unit> ();
+            return Utility.CreateUnit (enemyName);
         }).gameObject;
         enemy.transform.parent = parent;
         enemy.transform.position = grid.CellToLocal (position) + spawnerTransform.position + grid.cellSize / 2;
@@ -65,21 +66,17 @@ public class UnitSpawner : MonoBehaviour {
     [HideInInspector]
     public List<SpawnData> spawns;
     // private Game game;
-    public Grid m_grid;
 
     private Transform m_unitParent;
 
     private void Start () {
         m_unitParent = GameObject.Find ("Game").GetComponent<Game> ().m_level.transform;
-        m_grid = GameObject.Find ("Game").GetComponent<Game> ().m_grid;
     }
     void Update () {
         foreach (var data in spawns) {
-            // Debug.Log (m_grid.CellToLocal (data.position));
-            // Debug.Log (transform.position + m_grid.CellToLocal (data.position));
-            if (Game.pointInSpawnArea (transform.position + m_grid.CellToLocal (data.position))) {
+            if (Game.pointInSpawnArea (transform.position + GameVars.tileGrid.CellToLocal (data.position))) {
                 data.SetActive (true);
-                data.UpdateSpawn (Time.deltaTime, m_grid, m_unitParent, transform);
+                data.UpdateSpawn (Time.deltaTime, GameVars.tileGrid, m_unitParent, transform);
             } else {
                 data.SetActive (false);
             }
