@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.U2D;
+using UnityEngine.UI;
 public static class GameVars {
     public static int ScreenWidth;
     public static int ScreenHeight;
@@ -27,5 +28,31 @@ public static class GameVars {
         }
         set { _ppCamera = value; }
     }
+
+    private static int _money = 0;
+
+    public static int money {
+        get { return _money; } set {
+            if (value >= 0)
+                _money = value;
+            if (null != MoneyText) {
+                MoneyText.text = _money.ToString ("D10");
+            } else {
+                _money = 0;
+            }
+        }
+    }
+
+    public static void newLevel () {
+        money = 0;
+    }
+
+    public static Game Game;
+
+    public static InGameUI InGameUI;
+
+    public static BossHPBar BossHPBar;
+
+    public static Text MoneyText;
 
 }

@@ -10,8 +10,19 @@ public enum UnitMoveType {
 }
 
 public abstract class Unit : MonoBehaviour, PauseAble {
-    public float m_HP = 5;
+
+    [SerializeField] 
+    private float _HP = 5;
+    public float m_HP {
+        get { return _HP; } set {
+            _HP = value;
+            if (null != m_HPBar && m_HP >= 0) {
+                m_HPBar.SetHP ((int) m_HP);
+            }
+        }
+    }
     public float m_moveSpeed = 35;
+    public int m_money = 100;
     protected Animator m_animator;
     public List<WeaponsBehavior> m_weapons;
     public Team m_team;
@@ -57,9 +68,6 @@ public abstract class Unit : MonoBehaviour, PauseAble {
                 BulletBehavior bbh = other.gameObject.GetComponent<BulletBehavior> ();
                 if (bbh.team != m_team) {
                     m_HP -= bbh.damage;
-                    if (m_HPBar && m_HP >= 0) {
-                        m_HPBar.SetHP ((int) m_HP);
-                    }
                     if (m_HP <= 0) {
                         _Die ();
                     } else {
@@ -120,11 +128,15 @@ public abstract class Unit : MonoBehaviour, PauseAble {
         if (m_moveSpeedTweener != null) {
             DOTween.Kill (m_moveSpeedTweener);
         }
+        // 加钱
+        if (GameVars.Game.m_state == GameState.InGame) {
+            GameVars.money += m_money;
+        }
         Destroy (GetComponent<Rigidbody2D> ());
         Destroy (GetComponent<Collider2D> ());
-        if (m_HPBar) {
-            Destroy (m_HPBar.gameObject);
-        }
+        // if (m_HPBar) {
+        //     Destroy (m_HPBar.gameObject);
+        // }
         Die ();
         new EnumTimer (() => {
             ObjectMgr<Unit>.Instance.Destroy (this);

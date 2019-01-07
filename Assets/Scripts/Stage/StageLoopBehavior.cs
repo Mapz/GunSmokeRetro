@@ -57,9 +57,8 @@ public class StageLoopBehavior : MonoBehaviour {
                 m_boss = Instantiate (bossPrefab);
                 m_boss.transform.parent = GameObject.Find ("Game").GetComponent<Game> ().m_level.transform;
                 m_boss.transform.position = new Vector3 (0, 130, 0);
-                BossHPBar m_bossHPBar = Instantiate (m_bossHPBarRes).GetComponent<BossHPBar> ();
-                m_boss.GetComponent<Unit> ().m_HPBar = m_bossHPBar;
-                m_bossHPBar.Init ((int) m_boss.GetComponent<Unit> ().m_HP);
+                m_boss.GetComponent<Unit> ().m_HPBar = GameVars.BossHPBar;
+                GameVars.BossHPBar.Init (m_boss.GetComponent<Unit> ());
                 return m_boss.GetComponent<Unit> ();
             });
         }

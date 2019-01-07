@@ -48,7 +48,8 @@ public class Game : MonoBehaviour, PauseAble {
     public static RollingLayer m_rolling;
     [System.NonSerialized]
     public GameObject m_level;
-    private GameState m_state;
+    [System.NonSerialized]
+    public GameState m_state;
     public GameObject m_titlePrefab;
     private bool m_onChangeState = false;
     private GameState m_lastState;
@@ -70,6 +71,7 @@ public class Game : MonoBehaviour, PauseAble {
         GameVars.mainCamera = GameObject.Find ("Main Camera").GetComponent<Camera> ();
         GameVars.ppCamera = GameObject.Find ("Main Camera").GetComponent<PixelPerfectCamera> ();
         GameVars.UICanvas = GameObject.Find ("UICanvas").GetComponent<Canvas> ();
+        GameVars.Game = this;
         GameVars.ScreenHeight = GameVars.ppCamera.refResolutionY;
         GameVars.ScreenWidth = GameVars.ppCamera.refResolutionX;
     }
@@ -109,6 +111,7 @@ public class Game : MonoBehaviour, PauseAble {
                 ObjectMgr<BulletBehavior>.Instance.PauseAll (true);
                 ObjectMgr<Unit>.Instance.PauseAll (true);
                 m_rolling.Pause (true);
+                GameVars.InGameUI.LevelEnd ();
                 FadeCamera fade = GameVars.mainCamera.gameObject.AddComponent<FadeCamera> ();
                 fade.duration = 3;
                 fade.start = 0;
@@ -121,6 +124,7 @@ public class Game : MonoBehaviour, PauseAble {
                 };
                 break;
             case GameState.Loading:
+                GameVars.newLevel ();
                 ObjectMgr<BulletBehavior>.Instance.Clear ();
                 ObjectMgr<Unit>.Instance.Clear ();
                 loadLevel ();
@@ -128,6 +132,7 @@ public class Game : MonoBehaviour, PauseAble {
                 break;
             case GameState.InGame:
                 m_rolling.Pause (false);
+                GameVars.InGameUI.LevelStart ();
                 break;
         }
     }
