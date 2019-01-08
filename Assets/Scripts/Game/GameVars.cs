@@ -53,6 +53,8 @@ public static class GameVars {
 
     public static int CurLevel;
 
+    public static int CurLife;
+
     public static Game Game;
 
     public static InGameUI InGameUI;

@@ -11,8 +11,9 @@ public enum GameState {
     WantedScreen,
     LoadLevel,
     InGame,
+    ShowLife,
     Pause,
-    InGameOver,
+    GameOver,
 }
 
 // TODO:生怪器坐标修正 完成
@@ -24,8 +25,10 @@ public enum GameState {
 // TODO:TitleScreen 完成
 // TODO:Boss死后，游戏冻结，主角不能受伤 完成
 // TODO:加载资源化 完成
-// TODO:关卡头演绎
+// TODO:关卡头演绎 完成
+// TODO:生命系统 完成
 
+// TODO:资源的释放
 // TODO:Unit 配置表化 
 // TODO:随机障碍物系统
 // TODO:UI系统
@@ -83,10 +86,28 @@ public class Game : MonoBehaviour, PauseAble {
                     SetGameState (GameState.LoadLevel);
                 });
                 break;
-            case GameState.InGameOver:
-                ObjectMgr<BulletBehavior>.Instance.PauseAll (true);
-                ObjectMgr<Unit>.Instance.PauseAll (true);
-                m_rolling.Pause (true);
+            case GameState.ShowLife:
+                Pause (true);
+                Utility.Fade (false, () => {
+                    ObjectMgr<BulletBehavior>.Instance.Clear ();
+                    ObjectMgr<Unit>.Instance.Clear ();
+                    m_level.SetActive (false);
+                    GameObject go = Utility.CreateUI ("ShowLife");
+                    go.transform.SetParent (GameVars.InGameUI.transform, false);
+                    ShowLife sl = go.GetComponent<ShowLife> ();
+                    sl.Show (() => {
+                        CreateHero ();
+                        m_level.SetActive (true);
+                        Destroy (go);
+                        Utility.Fade (true, () => {
+                            Pause (false);
+                            SetGameState (GameState.InGame);
+                        });
+                    });
+                });
+                break;
+            case GameState.GameOver:
+                Pause (true);
                 GameVars.InGameUI.LevelEnd ();
                 Utility.Fade (false, () => {
                     unloadLevel ();
@@ -168,6 +189,7 @@ public class Game : MonoBehaviour, PauseAble {
         GameVars.ScreenHeight = GameVars.ppCamera.refResolutionY;
         GameVars.ScreenWidth = GameVars.ppCamera.refResolutionX;
         GameVars.CurLevel = 1;
+        GameVars.CurLife = 3;
         Utility.Init ();
     }
 
@@ -206,9 +228,14 @@ public class Game : MonoBehaviour, PauseAble {
         m_level = Utility.Instantiate ("Assets/AssetsToBuild/Level/Level");
         GameVars.tileGrid = m_level.GetComponent<Grid> ();
         m_rolling = m_level.GetComponent<RollingLayer> ();
+        CreateHero ();
+    }
+
+    public void CreateHero () {
         m_hero = (HeroBehavior) ObjectMgr<Unit>.Instance.Create (() => {
             return Utility.CreateUnit ("Hero");
         });
+        m_hero.transform.position = new Vector2 (0, -100f);
     }
 
     public void unloadLevel () {

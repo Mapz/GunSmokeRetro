@@ -70,7 +70,13 @@ public class HeroBehavior : Unit {
     }
 
     protected override void Die () {
-        game.SetGameState (GameState.InGameOver);
+        GameVars.CurLife--;
+        if (GameVars.CurLife <= 0) {
+            game.SetGameState (GameState.GameOver);
+        } else {
+            game.SetGameState (GameState.ShowLife);
+        }
+
     }
 
 }

@@ -60,6 +60,10 @@ public partial class Utility {
         return Instantiate (LevelLoopsPrefabPath + name);
     }
 
+    public static GameObject CreateUI (string name) {
+        return Instantiate (UIPath + name);
+    }
+
     public static Font GetFont (string name) {
         Asset asset = Assets.Load<Font> (FontPath + name);
         if (asset != null) {
