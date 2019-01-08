@@ -49,6 +49,8 @@ public static class GameVars {
         money = 0;
     }
 
+    public static Font MainFont;
+
     public static int CurLevel;
 
     public static Game Game;

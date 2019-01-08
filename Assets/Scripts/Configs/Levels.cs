@@ -9,6 +9,8 @@ public class LevelConfig {
     public string bossUnitName;
     public string bossName;
     public string bossWeaponName;
+    public string wantedPostName;
+    public int bossReward;
 }
 public static class LevelsConfig {
     public static Dictionary<int, LevelConfig> Levels = new Dictionary<int, LevelConfig> ();
@@ -23,8 +25,11 @@ public static class LevelsConfig {
         level1.bossLoop = "Level_1_Loop_1";
         level1.initLoop = "Level_1_Loop_1";
         level1.bossUnitName = "Level_1_Boss_1";
+        level1.wantedPostName = "Wanted_Post_1";
+        level1.bossReward = 10000;
         level1.levelLoops = new List<string> ();
         level1.levelLoops.Add ("Level_1_Loop_1");
+
         Levels.Add (1, level1);
     }
 

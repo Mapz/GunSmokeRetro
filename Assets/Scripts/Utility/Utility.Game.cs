@@ -20,6 +20,12 @@ public partial class Utility {
         }
     }
 
+    public static bool FadeInOut (float fadeDuration, float showDuration, DG.Tweening.TweenCallback callBack = null) {
+        return Fade (fadeDuration / 2, true, () => {
+            new EnumTimer (() => Fade (fadeDuration / 2, false, callBack), showDuration).StartTimeout (fade);
+        });
+    }
+
     public static Unit CreateUnit (string unitName) {
         Asset asset = Assets.Load<GameObject> (UnitPrefabPath + unitName + ".prefab");
         if (asset != null) {
@@ -46,5 +52,25 @@ public partial class Utility {
 
     public static GameObject CreateLevelLoop (string name) {
         return Instantiate (LevelLoopsPrefabPath + name);
+    }
+
+    public static Font GetFont (string name) {
+        Asset asset = Assets.Load<Font> (FontPath + name);
+        if (asset != null) {
+            Font font = (Font) asset.asset;
+            if (font != null) {
+                return font;
+            } else { throw new System.Exception ("加载字体失败:" + name); }
+        } else { throw new System.Exception ("加载字体失败:" + name); }
+    }
+
+    public static Sprite GetWanted (string name) {
+        Asset asset = Assets.Load<Sprite> (WantedPath + name + ".png");
+        if (asset != null) {
+            Sprite wanted = (Sprite) asset.asset;
+            if (wanted != null) {
+                return wanted;
+            } else { throw new System.Exception ("加载通缉失败:" + name); }
+        } else { throw new System.Exception ("加载通缉失败:" + name); }
     }
 }

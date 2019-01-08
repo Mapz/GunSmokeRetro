@@ -23,17 +23,18 @@ public enum GameState {
 // TODO:Boss1动画锚点优化 完成
 // TODO:TitleScreen 完成
 // TODO:Boss死后，游戏冻结，主角不能受伤 完成
+// TODO:加载资源化 完成
+// TODO:关卡头演绎
 
+// TODO:Unit 配置表化 
 // TODO:随机障碍物系统
 // TODO:UI系统
 // TODO:Boss系统,Boss移动方式
 // TODO:Unit 离开AI
 // TODO:子弹影子用Shader来制作
-// TODO:Unit 配置表化
-// TODO:加载资源化
 // TODO:优化朝向动画设置逻辑
-// TODO:关卡头演绎
 // TODO:声音
+// TODO:GameInGame逻辑分离
 
 public class Game : MonoBehaviour, PauseAble {
     [System.NonSerialized]
@@ -51,46 +52,20 @@ public class Game : MonoBehaviour, PauseAble {
     public static RollingLayer m_rolling;
     [System.NonSerialized]
     public GameObject m_level;
-    [System.NonSerialized]
-    public GameState m_state;
+    /** TitleScreen */
     public GameObject m_titlePrefab;
+    private GameObject m_titleScreen;
+    /** TitleScreen End*/
+
+    /*****State Machine ******/
+    public GameState m_state;
     private bool m_onChangeState = false;
     private GameState m_lastState;
     public static bool m_isPaused;
-    private GameObject m_titleScreen;
     public void SetGameState (GameState state) {
         m_onChangeState = true;
         m_lastState = m_state;
         m_state = state;
-    }
-
-    void Awake () {
-        _Init ();
-        SetGameState (GameState.Init);
-    }
-
-    private void _Init () {
-        LevelsConfig.Init ();
-        GameVars.mainCamera = GameObject.Find ("Main Camera").GetComponent<Camera> ();
-        GameVars.ppCamera = GameObject.Find ("Main Camera").GetComponent<PixelPerfectCamera> ();
-        GameVars.UICanvas = GameObject.Find ("UICanvas").GetComponent<Canvas> ();
-        GameVars.Game = this;
-        GameVars.ScreenHeight = GameVars.ppCamera.refResolutionY;
-        GameVars.ScreenWidth = GameVars.ppCamera.refResolutionX;
-        GameVars.CurLevel = 1;
-        Utility.Init ();
-    }
-
-    private void Init () {
-        screenBounds = new Bounds (new Vector3 (0, 0, 0), new Vector3 (GameVars.ppCamera.refResolutionX, GameVars.ppCamera.refResolutionY, 0));
-        outterBounds = new Bounds (new Vector3 (0, 0, 0), new Vector3 (GameVars.ppCamera.refResolutionX * 1.5f, GameVars.ppCamera.refResolutionY * 1.5f, 0));
-        spawnerActiveBounds = new Bounds (new Vector3 (0, 0, 0), new Vector3 (GameVars.ppCamera.refResolutionX * 1.3f, GameVars.ppCamera.refResolutionY * 1.3f, 0));
-    }
-
-    private void LoadTitle () {
-        m_titleScreen = Instantiate (m_titlePrefab) as GameObject;
-        m_titleScreen.transform.SetParent (GameVars.UICanvas.transform, false);
-        Utility.Fade (1.5f, true);
     }
 
     private void OnChangeState (GameState newState, GameState oldState) {
@@ -102,6 +77,11 @@ public class Game : MonoBehaviour, PauseAble {
                 break;
             case GameState.TitleScreen:
                 LoadTitle ();
+                break;
+            case GameState.WantedScreen:
+                WantedScreen.Init (() => {
+                    SetGameState (GameState.LoadLevel);
+                });
                 break;
             case GameState.InGameOver:
                 ObjectMgr<BulletBehavior>.Instance.PauseAll (true);
@@ -127,14 +107,7 @@ public class Game : MonoBehaviour, PauseAble {
         }
     }
 
-    public void Pause (bool _pause) {
-        ObjectMgr<BulletBehavior>.Instance.PauseAll (_pause);
-        ObjectMgr<Unit>.Instance.PauseAll (_pause);
-        m_rolling.Pause (_pause);
-        m_isPaused = _pause;
-    }
-
-    private void Update () {
+    private void UpdateState () {
         if (m_onChangeState)
             OnChangeState (m_state, m_lastState);
         switch (m_state) {
@@ -150,7 +123,7 @@ public class Game : MonoBehaviour, PauseAble {
                         () => {
                             Utility.Fade (1.5f, false, () => {
                                 Destroy (m_titleScreen);
-                                SetGameState (GameState.LoadLevel);
+                                SetGameState (GameState.WantedScreen);
                             });
                         }
                     );
@@ -171,6 +144,59 @@ public class Game : MonoBehaviour, PauseAble {
         }
     }
 
+    /*****State Machine End ******/
+
+    /**Init */
+
+    void Awake () {
+        _Init ();
+        SetGameState (GameState.Init);
+    }
+
+    private void _Init () {
+        LevelsConfig.Init ();
+        GameVars.mainCamera = GameObject.Find ("Main Camera").GetComponent<Camera> ();
+        GameVars.ppCamera = GameObject.Find ("Main Camera").GetComponent<PixelPerfectCamera> ();
+        GameVars.UICanvas = GameObject.Find ("UICanvas").GetComponent<Canvas> ();
+        GameVars.Game = this;
+        GameVars.MainFont = Utility.GetFont ("prstart.ttf");
+        GameVars.ScreenHeight = GameVars.ppCamera.refResolutionY;
+        GameVars.ScreenWidth = GameVars.ppCamera.refResolutionX;
+        GameVars.CurLevel = 1;
+        Utility.Init ();
+    }
+
+    private void Init () {
+        screenBounds = new Bounds (new Vector3 (0, 0, 0), new Vector3 (GameVars.ppCamera.refResolutionX, GameVars.ppCamera.refResolutionY, 0));
+        outterBounds = new Bounds (new Vector3 (0, 0, 0), new Vector3 (GameVars.ppCamera.refResolutionX * 1.5f, GameVars.ppCamera.refResolutionY * 1.5f, 0));
+        spawnerActiveBounds = new Bounds (new Vector3 (0, 0, 0), new Vector3 (GameVars.ppCamera.refResolutionX * 1.3f, GameVars.ppCamera.refResolutionY * 1.3f, 0));
+    }
+
+    /**Init End */
+
+    private void LoadTitle () {
+        m_titleScreen = Instantiate (m_titlePrefab) as GameObject;
+        m_titleScreen.transform.SetParent (GameVars.UICanvas.transform, false);
+        Utility.Fade (1.5f, true);
+    }
+
+    /** Update */
+
+    public void Pause (bool _pause) {
+        ObjectMgr<BulletBehavior>.Instance.PauseAll (_pause);
+        ObjectMgr<Unit>.Instance.PauseAll (_pause);
+        m_rolling.Pause (_pause);
+        m_isPaused = _pause;
+    }
+
+    void Update () {
+        UpdateState ();
+    }
+
+    /** Update End*/
+
+    /** Levels */
+
     public void loadLevel () {
         m_level = Utility.Instantiate ("Assets/AssetsToBuild/Level/Level");
         GameVars.tileGrid = m_level.GetComponent<Grid> ();
@@ -187,6 +213,9 @@ public class Game : MonoBehaviour, PauseAble {
         }
     }
 
+    /** Levels End*/
+
+    /** Utilitys TODO:Move To Utilitys */
     public static bool pointInScreen (Vector3 point) {
         if (screenBounds.Contains (point)) {
             return true;
@@ -211,4 +240,5 @@ public class Game : MonoBehaviour, PauseAble {
     public static bool pointInSpawnArea (Vector3 point) {
         return (!screenBounds.Contains (point) && spawnerActiveBounds.Contains (point));
     }
+    /** Utilitys End TODO:Move To Utilitys */
 }

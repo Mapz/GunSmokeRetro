@@ -6,6 +6,8 @@ using UnityEditor;
 public partial class Utility {
     public const string AssetBundlesOutputPath = "AssetBundles";
     public const string UnitPrefabPath = "Assets/AssetsToBuild/Units/";
+    public const string FontPath = "Assets/AssetsToBuild/Font/";
+    public const string WantedPath = "Assets/AssetsToBuild/Wanted/";
     public const string LevelLoopsPrefabPath = "Assets/AssetsToBuild/LevelLoops/";
     public static string AssetBunldesDownloadPath = Application.persistentDataPath + "/Bundles";
 
