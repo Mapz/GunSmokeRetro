@@ -4,10 +4,12 @@ using XAsset;
 public partial class Utility {
     private static FadeCamera fade;
 
+    public static bool isFadeOver { get { return fade._done; } }
+
     public static void Init () {
         fade = GameVars.mainCamera.gameObject.AddComponent<FadeCamera> ();
     }
-    public static bool Fade (float duration, bool inOut, DG.Tweening.TweenCallback callBack = null) {
+    public static bool Fade (float duration = 1.5f, bool inOut = true, DG.Tweening.TweenCallback callBack = null) {
         if (!fade._done) {
             return false;
         } else {
@@ -18,6 +20,10 @@ public partial class Utility {
             fade.DoFade ();
             return true;
         }
+    }
+
+    public static bool Fade (bool inOut = true, DG.Tweening.TweenCallback callBack = null) {
+        return Fade (1.5f, inOut, callBack);
     }
 
     public static bool FadeInOut (float fadeDuration, float showDuration, DG.Tweening.TweenCallback callBack = null) {

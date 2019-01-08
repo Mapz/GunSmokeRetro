@@ -88,7 +88,7 @@ public class Game : MonoBehaviour, PauseAble {
                 ObjectMgr<Unit>.Instance.PauseAll (true);
                 m_rolling.Pause (true);
                 GameVars.InGameUI.LevelEnd ();
-                Utility.Fade (3f, false, () => {
+                Utility.Fade (false, () => {
                     unloadLevel ();
                     SetGameState (GameState.LoadLevel);
                 });
@@ -98,7 +98,12 @@ public class Game : MonoBehaviour, PauseAble {
                 ObjectMgr<BulletBehavior>.Instance.Clear ();
                 ObjectMgr<Unit>.Instance.Clear ();
                 loadLevel ();
-                SetGameState (GameState.InGame);
+                Pause (true);
+                Utility.Fade (true, () => {
+                    Pause (false);
+                    SetGameState (GameState.InGame);
+                });
+
                 break;
             case GameState.InGame:
                 m_rolling.Pause (false);
@@ -121,7 +126,7 @@ public class Game : MonoBehaviour, PauseAble {
                     Text pushStart = GameObject.Find ("TextPushStart").GetComponent<Text> ();
                     DOTween.ToAlpha (() => pushStart.color, x => pushStart.color = x, 0f, 0.1f).SetLoops (5, LoopType.Yoyo).OnComplete (
                         () => {
-                            Utility.Fade (1.5f, false, () => {
+                            Utility.Fade (false, () => {
                                 Destroy (m_titleScreen);
                                 SetGameState (GameState.WantedScreen);
                             });
@@ -177,7 +182,7 @@ public class Game : MonoBehaviour, PauseAble {
     private void LoadTitle () {
         m_titleScreen = Instantiate (m_titlePrefab) as GameObject;
         m_titleScreen.transform.SetParent (GameVars.UICanvas.transform, false);
-        Utility.Fade (1.5f, true);
+        Utility.Fade (true);
     }
 
     /** Update */
