@@ -130,7 +130,7 @@ public abstract class Unit : MonoBehaviour, PauseAble {
             DOTween.Kill (m_moveSpeedTweener);
         }
         // 加钱
-        if (GameVars.Game.m_state == GameState.InGame) {
+        if (GameVars.Game.m_state == GameState.InGame && this.m_team != Team.Team1) {
             GameVars.money += m_money;
         }
         Destroy (GetComponent<Rigidbody2D> ());

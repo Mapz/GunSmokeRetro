@@ -92,6 +92,7 @@ public class Game : MonoBehaviour, PauseAble {
                     ObjectMgr<BulletBehavior>.Instance.Clear ();
                     ObjectMgr<Unit>.Instance.Clear ();
                     m_level.SetActive (false);
+                    GameVars.InGameUI.OnlyShowMoney ();
                     GameObject go = Utility.CreateUI ("ShowLife");
                     go.transform.SetParent (GameVars.InGameUI.transform, false);
                     ShowLife sl = go.GetComponent<ShowLife> ();
@@ -108,7 +109,8 @@ public class Game : MonoBehaviour, PauseAble {
                 break;
             case GameState.GameOver:
                 Pause (true);
-                GameVars.InGameUI.LevelEnd ();
+                ResetVars ();
+                GameVars.InGameUI.HideAll ();
                 Utility.Fade (false, () => {
                     unloadLevel ();
                     SetGameState (GameState.LoadLevel);
@@ -128,7 +130,7 @@ public class Game : MonoBehaviour, PauseAble {
                 break;
             case GameState.InGame:
                 m_rolling.Pause (false);
-                GameVars.InGameUI.LevelStart ();
+                GameVars.InGameUI.OnlyShowMoney ();
                 break;
         }
     }
@@ -188,9 +190,14 @@ public class Game : MonoBehaviour, PauseAble {
         GameVars.MainFont = Utility.GetFont ("prstart.ttf");
         GameVars.ScreenHeight = GameVars.ppCamera.refResolutionY;
         GameVars.ScreenWidth = GameVars.ppCamera.refResolutionX;
+        ResetVars ();
+        Utility.Init ();
+    }
+
+    private void ResetVars () {
         GameVars.CurLevel = 1;
         GameVars.CurLife = 3;
-        Utility.Init ();
+        GameVars.money = 0;
     }
 
     private void Init () {

@@ -14,8 +14,9 @@ public class InGameUI : MonoBehaviour {
         GameVars.InGameUI = this;
     }
 
-    public void LevelStart () {
+    public void OnlyShowMoney () {
         m_moneyText.gameObject.SetActive (true);
+        m_bossHPBar.gameObject.SetActive (false);
     }
 
     public void BossAppear () {
@@ -23,7 +24,7 @@ public class InGameUI : MonoBehaviour {
         m_moneyText.gameObject.SetActive (false);
     }
 
-    public void LevelEnd () {
+    public void HideAll () {
         m_moneyText.gameObject.SetActive (false);
         m_bossHPBar.gameObject.SetActive (false);
     }

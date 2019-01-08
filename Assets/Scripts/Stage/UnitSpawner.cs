@@ -73,6 +73,7 @@ public class UnitSpawner : MonoBehaviour {
         m_unitParent = GameObject.Find ("Game").GetComponent<Game> ().m_level.transform;
     }
     void Update () {
+        if (GameVars.Game.m_state != GameState.InGame) return;
         foreach (var data in spawns) {
             if (Game.pointInSpawnArea (transform.position + GameVars.tileGrid.CellToLocal (data.position))) {
                 data.SetActive (true);

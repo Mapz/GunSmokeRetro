@@ -26,6 +26,7 @@ public class StageLoopBehavior : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
+        if (GameVars.Game.m_state != GameState.InGame) return;
         Vector3 YtopPosition = upperTilemap.transform.position + upperTilemap.localBounds.max; // + upperTilemap.localBounds.size.y / 2;
         //屏幕到顶了，创建新循环
         if (m_loopBeforeBoss > 0 && Game.pointInOutterScreen (YtopPosition)) {
@@ -52,10 +53,15 @@ public class StageLoopBehavior : MonoBehaviour {
             Game.m_rolling.moveSpeed = Vector3.zero;
             ObjectMgr<Unit>.Instance.Create (() => {
                 m_boss = Utility.CreateUnit (levelConfig.bossUnitName);
+                m_boss.gameObject.SetActive (false);
                 m_boss.transform.parent = GameObject.Find ("Game").GetComponent<Game> ().m_level.transform;
                 m_boss.transform.position = new Vector3 (0, 130, 0);
                 m_boss.m_HPBar = GameVars.BossHPBar;
-                GameVars.BossHPBar.Init (m_boss);
+                //延时生效
+                new EnumTimer (() => {
+                    GameVars.BossHPBar.Init (m_boss);
+                    m_boss.gameObject.SetActive (true);
+                }, 0.5f).StartTimeout (this);
                 return m_boss;
             });
         }
