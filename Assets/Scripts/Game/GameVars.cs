@@ -49,6 +49,8 @@ public static class GameVars {
         money = 0;
     }
 
+    public static int CurLevel;
+
     public static Game Game;
 
     public static InGameUI InGameUI;

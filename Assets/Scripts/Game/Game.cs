@@ -9,7 +9,7 @@ public enum GameState {
     Init,
     TitleScreen,
     WantedScreen,
-    Loading,
+    LoadLevel,
     InGame,
     Pause,
     InGameOver,
@@ -22,6 +22,8 @@ public enum GameState {
 // TODO:Unit 离开销毁 完成
 // TODO:Boss1动画锚点优化 完成
 // TODO:TitleScreen 完成
+// TODO:Boss死后，游戏冻结，主角不能受伤 完成
+
 // TODO:随机障碍物系统
 // TODO:UI系统
 // TODO:Boss系统,Boss移动方式
@@ -30,7 +32,6 @@ public enum GameState {
 // TODO:Unit 配置表化
 // TODO:加载资源化
 // TODO:优化朝向动画设置逻辑
-// TODO:Boss死后，游戏冻结，主角不能受伤
 // TODO:关卡头演绎
 // TODO:声音
 
@@ -41,8 +42,7 @@ public class Game : MonoBehaviour, PauseAble {
     //屏幕外部界限
     private static Bounds outterBounds;
     private static Bounds spawnerActiveBounds; // 要比上面那个小
-    public GameObject LevelPrefab;
-    // string heroAssetPath = "Hero.prefab";
+    // public GameObject LevelPrefab;
 
     [System.NonSerialized]
     public HeroBehavior m_hero;
@@ -70,12 +70,14 @@ public class Game : MonoBehaviour, PauseAble {
     }
 
     private void _Init () {
+        LevelsConfig.Init ();
         GameVars.mainCamera = GameObject.Find ("Main Camera").GetComponent<Camera> ();
         GameVars.ppCamera = GameObject.Find ("Main Camera").GetComponent<PixelPerfectCamera> ();
         GameVars.UICanvas = GameObject.Find ("UICanvas").GetComponent<Canvas> ();
         GameVars.Game = this;
         GameVars.ScreenHeight = GameVars.ppCamera.refResolutionY;
         GameVars.ScreenWidth = GameVars.ppCamera.refResolutionX;
+        GameVars.CurLevel = 1;
         Utility.Init ();
     }
 
@@ -108,10 +110,10 @@ public class Game : MonoBehaviour, PauseAble {
                 GameVars.InGameUI.LevelEnd ();
                 Utility.Fade (3f, false, () => {
                     unloadLevel ();
-                    SetGameState (GameState.Loading);
+                    SetGameState (GameState.LoadLevel);
                 });
                 break;
-            case GameState.Loading:
+            case GameState.LoadLevel:
                 GameVars.newLevel ();
                 ObjectMgr<BulletBehavior>.Instance.Clear ();
                 ObjectMgr<Unit>.Instance.Clear ();
@@ -138,7 +140,7 @@ public class Game : MonoBehaviour, PauseAble {
         switch (m_state) {
             case GameState.Init:
                 break;
-            case GameState.Loading:
+            case GameState.LoadLevel:
                 break;
             case GameState.TitleScreen:
                 if (Input.GetKeyDown ("b")) {
@@ -148,7 +150,7 @@ public class Game : MonoBehaviour, PauseAble {
                         () => {
                             Utility.Fade (1.5f, false, () => {
                                 Destroy (m_titleScreen);
-                                SetGameState (GameState.Loading);
+                                SetGameState (GameState.LoadLevel);
                             });
                         }
                     );
@@ -170,7 +172,7 @@ public class Game : MonoBehaviour, PauseAble {
     }
 
     public void loadLevel () {
-        m_level = Instantiate (LevelPrefab);
+        m_level = Utility.Instantiate ("Assets/AssetsToBuild/Level/Level");
         GameVars.tileGrid = m_level.GetComponent<Grid> ();
         m_rolling = m_level.GetComponent<RollingLayer> ();
         m_hero = (HeroBehavior) ObjectMgr<Unit>.Instance.Create (() => {

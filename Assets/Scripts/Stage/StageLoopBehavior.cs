@@ -4,25 +4,22 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class StageLoopBehavior : MonoBehaviour {
-    public List<GameObject> loopMaps;
-    public GameObject initLoop;
-    public GameObject m_bossHPBarRes;
-    public GameObject bossLoop; //老王出现的Loop
+
+    private LevelConfig levelConfig;
     private GameObject upperMap;
     private GameObject downerMap;
     private Tilemap upperTilemap;
-    public GameObject bossPrefab;
-    private GameObject m_boss;
+    private Unit m_boss;
     private int m_loopCount; //现在重复的次数
     private int m_loopBeforeBoss; // 还有几次到老王
-
     private void Awake () {
         m_loopCount = 0;
         m_loopBeforeBoss = 1;
     }
 
     void Start () {
-        upperMap = Instantiate (initLoop);
+        levelConfig = LevelsConfig.GetCurLevelConfig ();
+        upperMap = Utility.CreateLevelLoop (levelConfig.initLoop);
         upperMap.transform.parent = transform;
         upperTilemap = upperMap.GetComponent<LoopData> ().m_ground;
     }
@@ -36,11 +33,11 @@ public class StageLoopBehavior : MonoBehaviour {
             if (m_loopBeforeBoss >= 0) {
                 m_loopBeforeBoss--;
             }
-            int r = Random.Range (0, loopMaps.Count);
+            int r = Random.Range (0, levelConfig.levelLoops.Count);
             if (m_loopBeforeBoss == 0) {
-                downerMap = Instantiate (loopMaps[r]);
+                downerMap = Utility.CreateLevelLoop (levelConfig.levelLoops[r]);
             } else {
-                downerMap = Instantiate (bossLoop);
+                downerMap = Utility.CreateLevelLoop (levelConfig.bossLoop);
             }
 
             downerMap.transform.parent = transform;
@@ -54,12 +51,12 @@ public class StageLoopBehavior : MonoBehaviour {
             if (m_boss != null) return;
             Game.m_rolling.moveSpeed = Vector3.zero;
             ObjectMgr<Unit>.Instance.Create (() => {
-                m_boss = Instantiate (bossPrefab);
+                m_boss = Utility.CreateUnit (levelConfig.bossUnitName);
                 m_boss.transform.parent = GameObject.Find ("Game").GetComponent<Game> ().m_level.transform;
                 m_boss.transform.position = new Vector3 (0, 130, 0);
-                m_boss.GetComponent<Unit> ().m_HPBar = GameVars.BossHPBar;
-                GameVars.BossHPBar.Init (m_boss.GetComponent<Unit> ());
-                return m_boss.GetComponent<Unit> ();
+                m_boss.m_HPBar = GameVars.BossHPBar;
+                GameVars.BossHPBar.Init (m_boss);
+                return m_boss;
             });
         }
         //循环到底了，删除之前的循环
