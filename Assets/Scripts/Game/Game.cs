@@ -28,6 +28,10 @@ public enum GameState {
 // TODO:关卡头演绎 完成
 // TODO:生命系统 完成
 
+// TODO:GameOver UI
+
+// TODO:LevelClear UI
+// TODO:游戏内商店系统
 // TODO:资源的释放
 // TODO:Unit 配置表化 
 // TODO:随机障碍物系统
@@ -109,11 +113,11 @@ public class Game : MonoBehaviour, PauseAble {
                 break;
             case GameState.GameOver:
                 Pause (true);
-                ResetVars ();
                 GameVars.InGameUI.HideAll ();
                 Utility.Fade (false, () => {
                     unloadLevel ();
-                    SetGameState (GameState.LoadLevel);
+                    GameObject go = Utility.CreateUI ("GameOverUI");
+                    go.transform.SetParent (GameVars.InGameUI.transform, false);
                 });
                 break;
             case GameState.LoadLevel:
@@ -190,14 +194,8 @@ public class Game : MonoBehaviour, PauseAble {
         GameVars.MainFont = Utility.GetFont ("prstart.ttf");
         GameVars.ScreenHeight = GameVars.ppCamera.refResolutionY;
         GameVars.ScreenWidth = GameVars.ppCamera.refResolutionX;
-        ResetVars ();
+        GameVars.ResetVars ();
         Utility.Init ();
-    }
-
-    private void ResetVars () {
-        GameVars.CurLevel = 1;
-        GameVars.CurLife = 3;
-        GameVars.money = 0;
     }
 
     private void Init () {

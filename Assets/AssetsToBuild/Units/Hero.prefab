@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 5673298778806388590}
   - component: {fileID: 5673298778806388585}
   m_Layer: 0
-  m_Name: 'Hero '
+  m_Name: Hero
   m_TagString: Unit_Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -117,15 +117,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a82fa9d94c19a4ae58c82ee7258ca568, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_HP: 5
+  _HP: 1
   m_moveSpeed: 35
-  m_animator: {fileID: 5673298778806388595}
+  m_money: 100
   m_weapons:
   - {fileID: 5673298778806388589}
   - {fileID: 5673298778806388588}
   - {fileID: 5673298778806388591}
   m_team: 1
   m_isDead: 0
+  m_positionFffsetOnCreate: {x: 0, y: 0, z: 0}
+  m_moveType: 0
+  m_HPBar: {fileID: 0}
 --- !u!114 &5673298778806388589
 MonoBehaviour:
   m_ObjectHideFlags: 0

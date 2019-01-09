@@ -49,6 +49,17 @@ public static class GameVars {
         money = 0;
     }
 
+    public static void ResetVars () {
+        GameVars.CurLevel = 1;
+        GameVars.CurLife = 3;
+        GameVars.money = 0;
+    }
+
+    public static void ContinueSetVars () {
+        GameVars.CurLife = 3;
+        GameVars.money = 0;
+    }
+
     public static Font MainFont;
 
     public static int CurLevel;
