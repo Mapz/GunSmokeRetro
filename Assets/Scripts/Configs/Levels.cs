@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-
+using UnityEngine;
 public class LevelConfig {
     public string levelNum;
     public string levelName;
@@ -11,6 +11,7 @@ public class LevelConfig {
     public string bossWeaponName;
     public string wantedPostName;
     public int bossReward;
+    public List<Vector2> WantedBulletPosList;
 }
 public static class LevelsConfig {
     public static Dictionary<int, LevelConfig> Levels = new Dictionary<int, LevelConfig> ();
@@ -30,6 +31,7 @@ public static class LevelsConfig {
         level1.levelLoops = new List<string> ();
         level1.levelLoops.Add ("Level_1_Loop_1");
 
+       
         Levels.Add (1, level1);
     }
 

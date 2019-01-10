@@ -9,6 +9,8 @@ public class EnumTimer {
     public int m_loop;
     public Func<bool> m_pauseWhile;
 
+    private Coroutine m_coroutine;
+
     public EnumTimer (Action _action, float _timeToWait, int _loop = 1, Func<bool> pauseCondition = null) {
         action = _action;
         timeToWait = _timeToWait;
@@ -17,7 +19,7 @@ public class EnumTimer {
     }
 
     public void StartTimeout (MonoBehaviour mb) {
-        mb.StartCoroutine (TimtToDo ());
+        m_coroutine = mb.StartCoroutine (TimtToDo ());
     }
 
     IEnumerator TimtToDo () {

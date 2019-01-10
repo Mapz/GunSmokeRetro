@@ -2,6 +2,8 @@ using System;
 using UnityEngine;
 using XAsset;
 public partial class Utility {
+
+    /**Fade Start */
     private static FadeCamera fade;
 
     public static bool isFadeOver { get { return fade._done; } }
@@ -32,6 +34,9 @@ public partial class Utility {
         });
     }
 
+    /**Fade End */
+
+    /**AssetCreate Start */
     public static Unit CreateUnit (string unitName) {
         Asset asset = Assets.Load<GameObject> (UnitPrefabPath + unitName + ".prefab");
         if (asset != null) {
@@ -83,4 +88,55 @@ public partial class Utility {
             } else { throw new System.Exception ("加载通缉失败:" + name); }
         } else { throw new System.Exception ("加载通缉失败:" + name); }
     }
+
+    public static Sprite GetOtherSprite (string name) {
+        Asset asset = Assets.Load<Sprite> (OtherSpritesPath + name + ".png");
+        if (asset != null) {
+            Sprite wanted = (Sprite) asset.asset;
+            if (wanted != null) {
+                return wanted;
+            } else { throw new System.Exception ("加载图片失败:" + name); }
+        } else { throw new System.Exception ("加载图片失败:" + name); }
+    }
+
+    public static Shader GetShader (string name) {
+        Asset asset = Assets.Load<Shader> (ShadersPath + name + ".shader");
+        if (asset != null) {
+            Shader wanted = (Shader) asset.asset;
+            if (wanted != null) {
+                return wanted;
+            } else { throw new System.Exception ("加载Shader失败:" + name); }
+        } else { throw new System.Exception ("加载Shader失败:" + name); }
+    }
+
+    /**AssetCreate End */
+
+    /**Flicker Start*/
+    private static ScreenFlickerEffect flicker;
+    public static ScreenFlickerEffect SetFlicker () {
+        if (flicker != null) {
+            GameObject.Destroy (flicker);
+        }
+        flicker = GameVars.mainCamera.gameObject.AddComponent<ScreenFlickerEffect> ();
+        flicker.shader = GetShader ("Flicker");
+        flicker.speed = 20;
+        return flicker;
+    }
+
+    public static void SetFlickerTransParent () {
+        if (flicker == null) {
+            flicker = GameVars.mainCamera.gameObject.AddComponent<ScreenFlickerEffect> ();
+            flicker.shader = GetShader ("Flicker");
+            flicker.speed = 20;
+        }
+        flicker.setTranparent (true);
+    }
+
+    public static void DestroyFlicker () {
+        if (flicker != null) {
+            GameObject.Destroy (flicker);
+            flicker = null;
+        }
+    }
+    /**Flicker Start*/
 }

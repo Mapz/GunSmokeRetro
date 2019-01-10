@@ -63,3 +63,6 @@ TagManager:
   - name: Hero
     uniqueID: 1640953503
     locked: 0
+  - name: Camera
+    uniqueID: 1709256525
+    locked: 0

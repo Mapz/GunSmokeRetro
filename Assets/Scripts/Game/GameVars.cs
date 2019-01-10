@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.U2D;
 using UnityEngine.UI;
 public static class GameVars {
+
+    public const int MaxLevel = 1;
     public static int ScreenWidth;
     public static int ScreenHeight;
     private static Camera _mainCamera;

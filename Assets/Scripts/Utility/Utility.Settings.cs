@@ -7,7 +7,9 @@ public partial class Utility {
     public const string AssetBundlesOutputPath = "AssetBundles";
     public const string UnitPrefabPath = "Assets/AssetsToBuild/Units/";
     public const string FontPath = "Assets/AssetsToBuild/Font/";
+    public const string OtherSpritesPath = "Assets/AssetsToBuild/OtherSprites/";
     public const string UIPath = "Assets/AssetsToBuild/UI/";
+    public const string ShadersPath = "Assets/AssetsToBuild/Shaders/";
     public const string WantedPath = "Assets/AssetsToBuild/Wanted/";
     public const string LevelLoopsPrefabPath = "Assets/AssetsToBuild/LevelLoops/";
     public static string AssetBunldesDownloadPath = Application.persistentDataPath + "/Bundles";

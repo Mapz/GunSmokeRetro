@@ -13,6 +13,7 @@ public enum GameState {
     InGame,
     ShowLife,
     Pause,
+    LevelClearScreen,
     GameOver,
 }
 
@@ -27,10 +28,10 @@ public enum GameState {
 // TODO:加载资源化 完成
 // TODO:关卡头演绎 完成
 // TODO:生命系统 完成
+// TODO:GameOver UI 完成
 
-// TODO:GameOver UI
+// TODO:LevelClear UI 后处理闪烁
 
-// TODO:LevelClear UI
 // TODO:游戏内商店系统
 // TODO:资源的释放
 // TODO:Unit 配置表化 
@@ -42,6 +43,10 @@ public enum GameState {
 // TODO:优化朝向动画设置逻辑
 // TODO:声音
 // TODO:GameInGame逻辑分离
+// TODO:AssetBundle模式跑通
+// TODO:弹孔位置编辑器
+// TODO:UI扫描色Shader完善
+// TODO 翻版界面
 
 public class Game : MonoBehaviour, PauseAble {
     [System.NonSerialized]
@@ -88,6 +93,25 @@ public class Game : MonoBehaviour, PauseAble {
             case GameState.WantedScreen:
                 WantedScreen.Init (() => {
                     SetGameState (GameState.LoadLevel);
+                });
+                break;
+            case GameState.LevelClearScreen:
+                Pause (true);
+                GameVars.InGameUI.HideAll ();
+                Utility.Fade (false, () => {
+                    unloadLevel ();
+                    GameObject go = Utility.CreateUI ("LevelClearUI");
+                    go.transform.SetParent (GameVars.InGameUI.transform, false);
+                    go.GetComponent<LevelClearUI> ().Show (() => {
+                        GameVars.CurLevel++;
+                        if (GameVars.CurLevel > GameVars.MaxLevel) {
+                            //TODO 翻版界面
+                            GameVars.CurLevel = GameVars.MaxLevel;
+                            SetGameState (GameState.WantedScreen);
+                        } else {
+                            SetGameState (GameState.WantedScreen);
+                        }
+                    });
                 });
                 break;
             case GameState.ShowLife:
@@ -162,13 +186,13 @@ public class Game : MonoBehaviour, PauseAble {
                 }
                 break;
             case GameState.InGame:
-                if (Input.GetKeyDown ("p")) {
+                if (Input.GetKeyDown ("b")) {
                     Pause (true);
                     SetGameState (GameState.Pause);
                 }
                 break;
             case GameState.Pause:
-                if (Input.GetKeyDown ("p")) {
+                if (Input.GetKeyDown ("b")) {
                     Pause (false);
                     SetGameState (GameState.InGame);
                 }
@@ -183,6 +207,7 @@ public class Game : MonoBehaviour, PauseAble {
     void Awake () {
         _Init ();
         SetGameState (GameState.Init);
+        // SetGameState (GameState.LevelClearScreen);
     }
 
     private void _Init () {
@@ -217,7 +242,9 @@ public class Game : MonoBehaviour, PauseAble {
     public void Pause (bool _pause) {
         ObjectMgr<BulletBehavior>.Instance.PauseAll (_pause);
         ObjectMgr<Unit>.Instance.PauseAll (_pause);
-        m_rolling.Pause (_pause);
+        if (m_rolling != null) {
+            m_rolling.Pause (_pause);
+        }
         m_isPaused = _pause;
     }
 

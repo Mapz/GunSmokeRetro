@@ -15,7 +15,7 @@ public class Boss1Behavior : Unit {
     protected override void Die () {
         transform.DOMoveY (3f, 0.2f).SetRelative ();
         Game game = GameObject.Find ("Game").GetComponent<Game> ();
-        game.SetGameState (GameState.GameOver);
+        game.SetGameState (GameState.LevelClearScreen);
     }
 
     protected override void OnHit () {
