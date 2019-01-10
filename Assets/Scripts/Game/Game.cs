@@ -29,14 +29,13 @@ public enum GameState {
 // TODO:关卡头演绎 完成
 // TODO:生命系统 完成
 // TODO:GameOver UI 完成
+// TODO:LevelClear UI 后处理闪烁 完成
 
-// TODO:LevelClear UI 后处理闪烁
-
+// TODO:骑马系统
 // TODO:游戏内商店系统
 // TODO:资源的释放
 // TODO:Unit 配置表化 
 // TODO:随机障碍物系统
-// TODO:UI系统
 // TODO:Boss系统,Boss移动方式
 // TODO:Unit 离开AI
 // TODO:子弹影子用Shader来制作
@@ -46,7 +45,8 @@ public enum GameState {
 // TODO:AssetBundle模式跑通
 // TODO:弹孔位置编辑器
 // TODO:UI扫描色Shader完善
-// TODO 翻版界面
+// TODO:翻版界面
+// TODO:接入Lua，评估使用边界
 
 public class Game : MonoBehaviour, PauseAble {
     [System.NonSerialized]
