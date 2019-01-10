@@ -30,6 +30,8 @@ public enum GameState {
 // TODO:生命系统 完成
 // TODO:GameOver UI 完成
 // TODO:LevelClear UI 后处理闪烁 完成
+// TODO:子弹影子用Shader来制作 完成
+
 
 // TODO:骑马系统
 // TODO:游戏内商店系统
@@ -38,7 +40,6 @@ public enum GameState {
 // TODO:随机障碍物系统
 // TODO:Boss系统,Boss移动方式
 // TODO:Unit 离开AI
-// TODO:子弹影子用Shader来制作
 // TODO:优化朝向动画设置逻辑
 // TODO:声音
 // TODO:GameInGame逻辑分离
