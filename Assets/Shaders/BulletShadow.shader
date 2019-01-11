@@ -9,7 +9,7 @@
         Tags {"Queue"="Transparent" "RenderType"="Transparent" }
         LOD 200
         Blend SrcAlpha OneMinusSrcAlpha
-        zwrite on
+        zwrite off
         
 
         Pass

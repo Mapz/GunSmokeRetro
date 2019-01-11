@@ -1,12 +1,12 @@
 ﻿
-Shader "Custom/Test"
+Shader "Custom/ScanText"
 {
      Properties {
         _MainTex ("Font Texture", 2D) = "white" {}
         _Color ("Text Color", Color) = (1,1,1,1)
         _ScanColor ("Scan Color", Color) = (1,1,1,1)
         _YPos("YPos",float) = 0
-        _ScanHeight("_ScanHeight",float) = 10
+        _ScanHeight("ScanHeight",float) = 10
         
     }
  
@@ -15,12 +15,13 @@ Shader "Custom/Test"
         Tags { "Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent" "DisableBatching" = "true"}
         Lighting Off Cull Off ZTest Always ZWrite Off Fog { Mode Off }
         Blend SrcAlpha OneMinusSrcAlpha
+        
  
         Pass { 
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            #pragma fragmentoption ARB_precision_hint_fastest
+            // #pragma fragmentoption ARB_precision_hint_fastest
             
  
             #include "UnityCG.cginc"
@@ -61,7 +62,10 @@ Shader "Custom/Test"
                     o.color = _Color;
                 }
                 o.vertex = UnityObjectToClipPos(v.vertex);
-               
+               //DEBUG
+                // o.color = float4(v.vertex.x,0,0,1);
+                // o.color = float4(0,v.vertex.y,0,1);
+                // o.color = float4(v.texcoord,0,1);
                 return o;
             }
  

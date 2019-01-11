@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2616193306842367075}
   - component: {fileID: 2616193306842367077}
   - component: {fileID: 2616193306842367076}
+  - component: {fileID: 7668230709434435249}
   m_Layer: 5
   m_Name: TextMapzInfo
   m_TagString: Untagged
@@ -79,6 +80,18 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 2019 MAPZ RETRO
+--- !u!114 &7668230709434435249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2616193306842367074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cffa8b63a6e64323a5a028420e56155, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2616193307099943372
 GameObject:
   m_ObjectHideFlags: 0
@@ -169,6 +182,7 @@ GameObject:
   - component: {fileID: 2616193307566848420}
   - component: {fileID: 2616193307566848422}
   - component: {fileID: 2616193307566848421}
+  - component: {fileID: 2550030239152508894}
   m_Layer: 5
   m_Name: TextCopyRight
   m_TagString: Untagged
@@ -237,6 +251,18 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "\xA91986 1988  CAPCOM"
+--- !u!114 &2550030239152508894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2616193307566848419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cffa8b63a6e64323a5a028420e56155, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2616193308479310100
 GameObject:
   m_ObjectHideFlags: 0

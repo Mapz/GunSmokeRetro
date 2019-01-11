@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: ScanLine
-  m_Shader: {fileID: 4800000, guid: 122d5e07ba8eb459b8910cd2cb02c656, type: 3}
+  m_Shader: {fileID: 4800000, guid: bb9780a2c80f640be9fe7f14a4de3a81, type: 3}
   m_ShaderKeywords: ETC1_EXTERNAL_ALPHA
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -94,7 +94,7 @@ Material:
     - _Strength: 0.217
     - _UVSec: 0
     - _UseUIAlphaClip: 0
-    - _YPos: 25
+    - _YPos: -59.999996
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 0.9215687, g: 0.58431375, b: 0.882353, a: 1}
