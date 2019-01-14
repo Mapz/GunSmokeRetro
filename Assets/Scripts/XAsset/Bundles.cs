@@ -31,7 +31,13 @@ namespace XAsset {
         public static bool Initialize (string path) {
             activeVariants = new string[0];
             dataPath = path;
-            var request = LoadInternal (PatchManager.instance.curVersionNum, true, false);
+            string assetBundleName;
+            if (Utility.ActiveBundleMode && Utility.ActiveDownloadMode) {
+                assetBundleName = PatchManager.instance.curVersionNum;
+            } else {
+                assetBundleName = Utility.GetPlatformName ();
+            }
+            var request = LoadInternal (assetBundleName, true, false);
             if (request == null || request.error != null) {
                 return false;
             }

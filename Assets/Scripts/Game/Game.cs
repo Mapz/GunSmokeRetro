@@ -31,9 +31,13 @@ public enum GameState {
 // TODO:GameOver UI 完成
 // TODO:LevelClear UI 后处理闪烁 完成
 // TODO:子弹影子用Shader来制作 完成
+// TODO:UI扫描色Shader完善 完成
 
+// TODO:AssetBundle模式跑通
 
+// TODO:移动受阻的BUG
 // TODO:骑马系统
+// TODO:热更新模式通过
 // TODO:游戏内商店系统
 // TODO:资源的释放
 // TODO:Unit 配置表化 
@@ -43,9 +47,7 @@ public enum GameState {
 // TODO:优化朝向动画设置逻辑
 // TODO:声音
 // TODO:GameInGame逻辑分离
-// TODO:AssetBundle模式跑通
 // TODO:弹孔位置编辑器
-// TODO:UI扫描色Shader完善
 // TODO:翻版界面
 // TODO:接入Lua，评估使用边界
 
@@ -212,6 +214,7 @@ public class Game : MonoBehaviour, PauseAble {
     }
 
     private void _Init () {
+        Assets.Initialize();
         LevelsConfig.Init ();
         GameVars.mainCamera = GameObject.Find ("Main Camera").GetComponent<Camera> ();
         GameVars.ppCamera = GameObject.Find ("Main Camera").GetComponent<PixelPerfectCamera> ();

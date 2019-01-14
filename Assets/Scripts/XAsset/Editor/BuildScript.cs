@@ -43,8 +43,9 @@ namespace XAsset.Editor {
 #endif
             }
 
-            options |= BuildAssetBundleOptions.AppendHashToAssetBundleName;
-
+            if (Utility.ActiveBundleMode && Utility.ActiveDownloadMode) {
+                options |= BuildAssetBundleOptions.AppendHashToAssetBundleName;
+            }
             if (builds == null || builds.Count == 0) {
                 //@TODO: use append hash... (Make sure pipeline works correctly with it.)
                 return BuildPipeline.BuildAssetBundles (outputPath, options, EditorUserBuildSettings.activeBuildTarget);
@@ -186,13 +187,15 @@ namespace XAsset.Editor {
             }
         }
 
-        static void SaveManifest (string path, List<AssetBundleBuild> builds, string versionNum) {
+        static void SaveManifest (string path, List<AssetBundleBuild> builds, string versionNum = null) {
             if (File.Exists (path)) {
                 File.Delete (path);
             }
             using (var writer = new StreamWriter (path)) {
-                //第一行是版本号
-                writer.WriteLine (versionNum);
+                if (versionNum != null) {
+                    //第一行是版本号
+                    writer.WriteLine (versionNum);
+                }
 
                 foreach (var item in builds) {
                     writer.WriteLine (item.assetBundleName + ":");
@@ -206,34 +209,38 @@ namespace XAsset.Editor {
             }
         }
 
+        public static void BuildManifest (string path, List<AssetBundleBuild> builds, bool forceRebuild = false) {
+            BuildManifest (path, builds, null, forceRebuild, null);
+        }
+
         public static void BuildManifest (string path, List<AssetBundleBuild> builds, AssetBundleManifest assetBundleManifest, bool forceRebuild, string versionNum) {
 
             Manifest manifest = new Manifest ();
-
-            string[] RealABPathList = assetBundleManifest.GetAllAssetBundles ();
             Dictionary<string, string> abPathList = new Dictionary<string, string> ();
+            if (Utility.ActiveBundleMode && Utility.ActiveDownloadMode) {
+                string[] RealABPathList = assetBundleManifest.GetAllAssetBundles ();
 
-            for (int i = 0; i < RealABPathList.Length; i++) {
+                for (int i = 0; i < RealABPathList.Length; i++) {
 
-                string[] result = RealABPathList[i].Split ('_');
-                Debug.Log ("========");
-                string _path = "";
-                string _hash = "";
-                if (result.Length > 1) {
-                    for (int j = 0; j < result.Length; j++) {
-                        if (j == 0) {
-                            _path = result[j];
-                        } else if (j > 0 && j < result.Length - 1) {
-                            _path = _path + "_" + result[j];
-                        } else if (j == result.Length - 1) {
-                            _hash = result[j];
+                    string[] result = RealABPathList[i].Split ('_');
+                    Debug.Log ("========");
+                    string _path = "";
+                    string _hash = "";
+                    if (result.Length > 1) {
+                        for (int j = 0; j < result.Length; j++) {
+                            if (j == 0) {
+                                _path = result[j];
+                            } else if (j > 0 && j < result.Length - 1) {
+                                _path = _path + "_" + result[j];
+                            } else if (j == result.Length - 1) {
+                                _hash = result[j];
+                            }
                         }
+                        abPathList.Add (_path, _hash);
                     }
-                    abPathList.Add (_path, _hash);
+
                 }
-
             }
-
             if (File.Exists (path)) {
                 using (var reader = new StreamReader (path)) {
                     manifest.Load (reader);
@@ -246,21 +253,33 @@ namespace XAsset.Editor {
             List<string> assets = new List<string> ();
             bool dirty = false;
             if (builds.Count > 0) {
-                for (int i = 0; i < builds.Count; i++) {
-                    var item = builds[i];
-                    string assetBundleHash;
-                    bool gotBundleName = abPathList.TryGetValue (item.assetBundleName, out assetBundleHash);
+                if (Utility.ActiveBundleMode && Utility.ActiveDownloadMode) {
 
-                    if (gotBundleName) {
-                        item.assetBundleName = item.assetBundleName + "_" + assetBundleHash;
+                    for (int i = 0; i < builds.Count; i++) {
+                        var item = builds[i];
+                        string assetBundleHash;
+                        bool gotBundleName = abPathList.TryGetValue (item.assetBundleName, out assetBundleHash);
+
+                        if (gotBundleName) {
+                            item.assetBundleName = item.assetBundleName + "_" + assetBundleHash;
+                        }
+                        builds[i] = item;
+                        bundles.Add (item.assetBundleName);
+                        foreach (var assetPath in item.assetNames) {
+                            newpaths[assetPath] = item.assetBundleName;
+                            assets.Add (assetPath + ":" + (bundles.Count - 1));
+                        }
                     }
-                    builds[i] = item;
-                    bundles.Add (item.assetBundleName);
-                    foreach (var assetPath in item.assetNames) {
-                        newpaths[assetPath] = item.assetBundleName;
-                        assets.Add (assetPath + ":" + (bundles.Count - 1));
+                } else {
+                    foreach (var item in builds) {
+                        bundles.Add (item.assetBundleName);
+                        foreach (var assetPath in item.assetNames) {
+                            newpaths[assetPath] = item.assetBundleName;
+                            assets.Add (assetPath + ":" + (bundles.Count - 1));
+                        }
                     }
                 }
+
             }
 
             if (manifest.allAssets != null && newpaths.Count == manifest.allAssets.Length) {
@@ -275,9 +294,13 @@ namespace XAsset.Editor {
             }
 
             if (forceRebuild || dirty || !File.Exists (path)) {
-                string versionFilePath = Path.Combine (EditorUtility.AssetBundlesOutputPath, EditorUtility.GetPlatformName ());
-                SaveVersionFile (versionFilePath, versionNum);
-                SaveManifest (path, builds, versionNum);
+                if (Utility.ActiveBundleMode && Utility.ActiveDownloadMode) {
+                    string versionFilePath = Path.Combine (EditorUtility.AssetBundlesOutputPath, EditorUtility.GetPlatformName ());
+                    SaveVersionFile (versionFilePath, versionNum);
+                    SaveManifest (path, builds, versionNum);
+                } else {
+                    SaveManifest (path, builds);
+                }
                 AssetDatabase.ImportAsset (path, ImportAssetOptions.ForceUpdate);
                 AssetDatabase.Refresh ();
             }

@@ -64,26 +64,46 @@ namespace XAsset {
             string relativePath = Path.Combine (Utility.AssetBundlesOutputPath, Utility.GetPlatformName ());
             var url = "";
 #if UNITY_EDITOR
-            if (Utility.ActiveBundleMode) {
+            if (Utility.ActiveBundleMode && Utility.ActiveDownloadMode) {
                 url = Utility.AssetBunldesDownloadPath + "/";
             } else {
                 url = relativePath + "/";
             }
 
 #else
-            url = Utility.AssetBunldesDownloadPath + "/";
+            if (Utility.ActiveDownloadMode)
+                url = Utility.AssetBunldesDownloadPath + "/";
+            else {
+                url = Path.Combine (Application.streamingAssetsPath, relativePath) + "/";
+            }
 #endif
             if (Bundles.Initialize (url)) {
-                string xManifestPath = PatchManager.instance.localXManifestPath;
-                string xManifestContent = File.ReadAllText (xManifestPath);
-                if (xManifestContent.Length > 0) {
-                    using (var reader = new StringReader (xManifestContent)) {
-                        manifest.Load (reader);
-                        reader.Close ();
+                if (Utility.ActiveDownloadMode) {
+                    string xManifestPath = PatchManager.instance.localXManifestPath;
+                    string xManifestContent = File.ReadAllText (xManifestPath);
+                    if (xManifestContent.Length > 0) {
+                        using (var reader = new StringReader (xManifestContent)) {
+                            manifest.Load (reader);
+                            reader.Close ();
+                        }
+                        return true;
                     }
-                    return true;
+                } else {
+                    var bundle = Bundles.Load ("manifest");
+                    if (bundle != null) {
+                        var asset = bundle.LoadAsset<TextAsset> ("Manifest.txt");
+                        if (asset != null) {
+                            using (var reader = new StringReader (asset.text)) {
+                                manifest.Load (reader);
+                                reader.Close ();
+                            }
+                            bundle.Release ();
+                            Resources.UnloadAsset (asset);
+                            asset = null;
+                        }
+                        return true;
+                    }
                 }
-
                 throw new FileNotFoundException ("assets manifest not exist.");
             }
             throw new FileNotFoundException ("bundle manifest not exist.");
@@ -93,16 +113,19 @@ namespace XAsset {
             string relativePath = Path.Combine (Utility.AssetBundlesOutputPath, Utility.GetPlatformName ());
             var url = "";
 #if UNITY_EDITOR
-            if (Utility.ActiveBundleMode) {
+            if (Utility.ActiveBundleMode && Utility.ActiveDownloadMode) {
                 url = Utility.AssetBunldesDownloadPath + "/";
             } else {
                 url = relativePath + "/";
             }
 
 #else
-            url = Utility.AssetBunldesDownloadPath + "/";
+            if (Utility.ActiveDownloadMode)
+                url = Utility.AssetBunldesDownloadPath + "/";
+            else {
+                url = Path.Combine (Application.streamingAssetsPath, relativePath) + "/";
+            }
 #endif
-
             StartCoroutine (Bundles.InitializeAsync (url, bundle => {
                 if (bundle != null) {
                     var asset = bundle.LoadAsset<TextAsset> ("Manifest.txt");
@@ -152,6 +175,7 @@ namespace XAsset {
 
         System.Collections.IEnumerator gc = null;
         System.Collections.IEnumerator GC () {
+            System.GC.Collect ();
             yield return 0;
             yield return Resources.UnloadUnusedAssets ();
         }

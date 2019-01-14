@@ -57,7 +57,7 @@ namespace XAsset {
                 if (line == string.Empty) {
                     continue;
                 }
-                if (count == 0) {
+                if (Utility.ActiveDownloadMode&&Utility.ActiveBundleMode&&count == 0) {
                     //版本号
                     versionNumber = line;
                 } else {

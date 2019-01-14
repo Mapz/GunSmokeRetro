@@ -37,6 +37,22 @@ namespace XAsset.Editor {
 			return true;
 		}
 
+		const string kResourceMode = "CodeZF/XAsset/Download Mode";
+
+		[MenuItem (kResourceMode)]
+		public static void ToggleResourceMode () {
+			EditorUtility.ActiveDownloadMode = !EditorUtility.ActiveDownloadMode;
+		}
+
+		[MenuItem (kResourceMode, true)]
+		public static bool ToggleResourceModeValidate () {
+			if (!EditorUtility.ActiveBundleMode) {
+				return false;
+			}
+			Menu.SetChecked (kResourceMode, EditorUtility.ActiveDownloadMode);
+			return true;
+		}
+
 		// [MenuItem ("CodeZF/Ensure Asset Labels")]
 		// public static void EnsureLuaAssetLabels () {
 		// 	var luaPaths = new List<string> (AssetDatabase.GetAllAssetPaths ()).Where (path => path.EndsWith (".lua"));
@@ -47,27 +63,50 @@ namespace XAsset.Editor {
 		// 	}
 		// }
 
-		[MenuItem ("CodeZF/XAsset/Build AssetBundles")]
+		[MenuItem ("CodeZF/XAsset/Build AssetBundles For Download")]
 		public static void BuildAssetBundles () {
 			if (EditorApplication.isCompiling) {
 				return;
 			}
 			string versionNum = DateTime.Now.ToFileTime ().ToString ();
 			string maninfestPath = Path.Combine (BuildScript.CreateAssetBundleDirectory (versionNum), versionNum + ".xManifest");
-
-			var luaPaths = AssetDatabase.FindAssets ("l:" + EditorConst.LuaScriptAssetLabel).ToList ().ConvertAll (guid => AssetDatabase.GUIDToAssetPath (guid));
-			// EnsureLuaAssetLabels ();
-			// GenerateLuaLoadList ();
-			// var pathMap = ChangeFileNames (luaPaths);
+			// var luaPaths = AssetDatabase.FindAssets ("l:" + EditorConst.LuaScriptAssetLabel).ToList ().ConvertAll (guid => AssetDatabase.GUIDToAssetPath (guid));
+			// EnsureLuaAssetLabels (); //ForLua
+			// GenerateLuaLoadList (); //ForLua
+			// var pathMap = ChangeFileNames (luaPaths); //ForLua
 			try {
 				List<AssetBundleBuild> builds = BuildRule.GetBuilds (maninfestPath);
 				AssetBundleManifest assetBundleManifest = BuildScript.BuildAssetBundles (builds, versionNum);
 				BuildScript.BuildManifest (maninfestPath, builds, assetBundleManifest, false, versionNum);
 			} finally {
-				// RevertFileNames (pathMap);
+				// RevertFileNames (pathMap); //ForLua
 			}
 
 		}
+
+		const string assetsManifesttxt = "Assets/Manifest.txt";
+		[MenuItem ("CodeZF/XAsset/Build Manifest")]
+		public static void BuildAssetManifest () {
+			if (EditorApplication.isCompiling) {
+				return;
+			}
+			List<AssetBundleBuild> builds = BuildRule.GetBuilds (assetsManifesttxt);
+			BuildScript.BuildManifest (assetsManifesttxt, builds);
+		}
+
+		[MenuItem ("CodeZF/XAsset/Build AssetBundles For Stream")]
+		public static void BuildAssetBundlesForStream () {
+			if (EditorApplication.isCompiling) {
+				return;
+			}
+			if (EditorApplication.isCompiling) {
+				return;
+			}
+			List<AssetBundleBuild> builds = BuildRule.GetBuilds (assetsManifesttxt);
+			BuildScript.BuildManifest (assetsManifesttxt, builds);
+			BuildScript.BuildAssetBundles (builds);
+		}
+
 		private static IDictionary<string, string> ChangeFileNames (IEnumerable<string> luaPaths) {
 			var pathMap = new Dictionary<string, string> ();
 			foreach (string path in luaPaths) {

@@ -1,0 +1,203 @@
+manifest:
+	Assets/Manifest.txt
+
+shared/assets/assetstobuild/bullets_2:
+	Assets/AssetsToBuild/Bullets/HeroBullet.prefab
+	Assets/AssetsToBuild/Bullets/enemyBullet1_1.prefab
+
+shared/assets/mat_1:
+	Assets/Mat/BulletShadow.mat
+
+shaders_3:
+	Assets/Shaders/BulletShadow.shader
+	Assets/AssetsToBuild/Shaders/Flicker.shader
+	Assets/Shaders/ScanText.shader
+
+shared/assets/texture/characters_3:
+	Assets/Texture/Characters/OriBullet.png
+	Assets/Texture/Characters/GunSmokeChars.png
+	Assets/Texture/Characters/GunSmokeEnemys.png
+
+shared/assets/assetstobuild/font_1:
+	Assets/AssetsToBuild/Font/prstart.ttf
+
+shared/assets/assetstobuild/wanted_1:
+	Assets/AssetsToBuild/Wanted/Wanted_Post_1.png
+
+shared/assets/animations_9:
+	Assets/Animations/EnemyWindownerRightDown.anim
+	Assets/Animations/EnemyWindownerRight.anim
+	Assets/Animations/EnemyWindownerRightUp.anim
+	Assets/Animations/EnemyWindownerDieLeft.anim
+	Assets/Animations/EnemyWindownerLeftDown.anim
+	Assets/Animations/EnemyWindower.controller
+	Assets/Animations/EnemyWindownerDieRight.anim
+	Assets/Animations/EnemyWindownerLeftUp.anim
+	Assets/Animations/EnemyWindownerLeft.anim
+
+shared/assets/assetstobuild/units_1:
+	Assets/AssetsToBuild/Units/EnemyWindowerFacingLeft.prefab
+
+assets/assetstobuild_10:
+	Assets/AssetsToBuild/.DS_Store
+	Assets/AssetsToBuild/Bullets.meta
+	Assets/AssetsToBuild/Font.meta
+	Assets/AssetsToBuild/Level.meta
+	Assets/AssetsToBuild/LevelLoops.meta
+	Assets/AssetsToBuild/OtherSprites.meta
+	Assets/AssetsToBuild/Shaders.meta
+	Assets/AssetsToBuild/UI.meta
+	Assets/AssetsToBuild/Units.meta
+	Assets/AssetsToBuild/Wanted.meta
+
+assets/assetstobuild/bullets_2:
+	Assets/AssetsToBuild/Bullets/HeroBullet.prefab.meta
+	Assets/AssetsToBuild/Bullets/enemyBullet1_1.prefab.meta
+
+assets/assetstobuild/font_1:
+	Assets/AssetsToBuild/Font/prstart.ttf.meta
+
+assets/assetstobuild/level_2:
+	Assets/AssetsToBuild/Level/Level.prefab
+	Assets/AssetsToBuild/Level/Level.prefab.meta
+
+assets/assetstobuild/levelloops_88:
+	Assets/AssetsToBuild/LevelLoops/Level_1_Loop_1.prefab
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_5.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_7.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_17.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_79.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_49.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_34.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_78.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_40.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_15.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_57.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_2.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_85.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_23.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_65.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_44.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_82.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_53.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_42.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_3.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_89.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_13.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_41.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_67.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_36.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_14.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_94.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_93.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_70.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_50.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_38.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_24.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_88.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_83.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_37.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_76.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_33.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_32.asset
+	Assets/Texture/Levels/Level1.png
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_16.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_86.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_72.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_69.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_51.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_22.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_59.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_11.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_62.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_10.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_73.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_29.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_12.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_6.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_19.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_43.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_55.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_25.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_91.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_77.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_21.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_30.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_52.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_63.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_20.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_60.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_26.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_46.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_64.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_68.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_81.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_75.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_54.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_80.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_74.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_18.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_58.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_92.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_8.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_71.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_48.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_28.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_47.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_84.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_0.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_90.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_27.asset
+	Assets/Texture/Levels/NES - GunSmoke - Level 1 - Tile Set_87.asset
+	Assets/AssetsToBuild/LevelLoops/Level_1_Loop_1.prefab.meta
+
+assets/assetstobuild/othersprites_2:
+	Assets/AssetsToBuild/OtherSprites/BulletHole.png
+	Assets/AssetsToBuild/OtherSprites/BulletHole.png.meta
+
+assets/assetstobuild/shaders_1:
+	Assets/AssetsToBuild/Shaders/Flicker.shader.meta
+
+assets/assetstobuild/ui_8:
+	Assets/AssetsToBuild/UI/GameOverUI.prefab
+	Assets/Texture/Icons/icons.png
+	Assets/Mat/ScanLine.mat
+	Assets/AssetsToBuild/UI/GameOverUI.prefab.meta
+	Assets/AssetsToBuild/UI/LevelClearUI.prefab
+	Assets/AssetsToBuild/UI/LevelClearUI.prefab.meta
+	Assets/AssetsToBuild/UI/ShowLife.prefab
+	Assets/AssetsToBuild/UI/ShowLife.prefab.meta
+
+assets/assetstobuild/units_28:
+	Assets/AssetsToBuild/Units/Enemy1.prefab
+	Assets/Animations/Enemy1Walk.anim
+	Assets/Animations/EnemyJumpRight.anim
+	Assets/Animations/Enemy1WalkLeft.anim
+	Assets/Animations/Enemy1Die.anim
+	Assets/Animations/EnemyJumpLeft.anim
+	Assets/Animations/Enemy1WalkRight.anim
+	Assets/Animations/Enemy1WalkUp.anim
+	Assets/Animations/Enemy1Anim.controller
+	Assets/AssetsToBuild/Units/Enemy1.prefab.meta
+	Assets/AssetsToBuild/Units/EnemyWindowerFacingLeft.prefab.meta
+	Assets/AssetsToBuild/Units/EnemyWindowerFacingRight.prefab
+	Assets/AssetsToBuild/Units/EnemyWindowerFacingRight.prefab.meta
+	Assets/AssetsToBuild/Units/Hero.prefab
+	Assets/Animations/HeroWalk.anim
+	Assets/Animations/HeroAnimShootLeft.anim
+	Assets/Animations/HeroDie.anim
+	Assets/Animations/HeroShootUp.anim
+	Assets/Animations/HeroAnimShootRight.anim
+	Assets/Animations/HeroAnim.controller
+	Assets/AssetsToBuild/Units/Hero.prefab.meta
+	Assets/AssetsToBuild/Units/Level_1_Boss_1.prefab
+	Assets/Animations/Boss1Die.anim
+	Assets/Animations/Boss1Crawl.anim
+	Assets/Animations/Boss1Stand.anim
+	Assets/Animations/Boss1BanditBill.controller
+	Assets/Texture/Characters/Boss1BanditBill.png
+	Assets/AssetsToBuild/Units/Level_1_Boss_1.prefab.meta
+
+assets/assetstobuild/wanted_1:
+	Assets/AssetsToBuild/Wanted/Wanted_Post_1.png.meta
+

@@ -132,7 +132,7 @@ namespace XAsset {
         protected override void OnUnload () {
             if (_request != null) {
                 if (_request.assetBundle != null) {
-                    _request.assetBundle.Unload (false);
+					_request.assetBundle.Unload(true); 
                 }
                 _request = null;
             }
@@ -212,7 +212,7 @@ namespace XAsset {
         protected override void OnUnload () {
             if (_request != null) {
                 if (_request.assetBundle != null) {
-                    _request.assetBundle.Unload (false);
+					_request.assetBundle.Unload(true);
                 }
                 _request = null;
             }
